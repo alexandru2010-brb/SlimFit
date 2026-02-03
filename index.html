@@ -3,154 +3,170 @@
 Acum iau playbook-ul pentru integrări:
 Action: file_editor view /app/design_guidelines.json
 Observation: /app/design_guidelines.json:
-1|{
-2|  "typography": {
-3|    "font_family": {
-4|      "headings": "Manrope, sans-serif",
-5|      "body": "Inter, sans-serif"
-6|    },
-7|    "weights": {
-8|      "headings": "font-bold",
-9|      "body": "font-normal"
-10|    },
-11|    "sizes": {
-12|      "h1": "text-4xl md:text-5xl tracking-tight",
-13|      "h2": "text-3xl md:text-4xl tracking-tight",
-14|      "h3": "text-2xl md:text-3xl tracking-tight",
-15|      "body": "text-base leading-relaxed",
-16|      "small": "text-sm text-muted-foreground"
-17|    },
-18|    "instructions": "Import 'Manrope' and 'Inter' from Google Fonts in index.css. Apply 'font-sans' (Inter) to body and create a utility class '.font-heading' (Manrope) for all headings."
-19|  },
-20|  "colors": {
-21|    "palette": {
-22|      "primary": {
-23|        "DEFAULT": "#4A6741",
-24|        "foreground": "#FFFFFF",
-25|        "description": "Sage Green - Organic, Trust, Health"
-26|      },
-27|      "secondary": {
-28|        "DEFAULT": "#F97316",
-29|        "foreground": "#FFFFFF",
-30|        "description": "Energetic Orange - Motivation, Action, CTAs"
-31|      },
-32|      "background": {
-33|        "DEFAULT": "#FBFBF9",
-34|        "dark": "#0C0C0C",
-35|        "description": "Bone White / Off-White - Natural, Clean"
-36|      },
-37|      "surface": {
-38|        "DEFAULT": "#FFFFFF",
-39|        "dark": "#1A1A1A",
-40|        "description": "Pure White for cards to pop against Bone White bg"
-41|      },
-42|      "text": {
-43|        "DEFAULT": "#1A2E05",
-44|        "muted": "#5C6B45",
-45|        "description": "Dark Olive instead of pure black for softer contrast"
-46|      }
-47|    },
-48|    "gradients": {
-49|      "hero": "bg-gradient-to-br from-[#4A6741] to-[#2E4226]",
-50|      "accent": "bg-gradient-to-r from-[#F97316] to-[#FB923C]"
-51|    },
-52|    "instructions": "Update tailwind.config.js with these specific hex codes. Do not use default Tailwind colors for primary/secondary."
-53|  },
-54|  "visual_enhancers": {
-55|    "radius": "rounded-2xl",
-56|    "shadows": {
-57|      "card": "shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
-58|      "button": "shadow-[0_4px_14px_0_rgba(249,115,22,0.39)]"
-59|    },
-60|    "glassmorphism": {
-61|      "enabled": true,
-62|      "classes": "bg-white/70 backdrop-blur-xl border border-white/20"
-63|    },
-64|    "textures": "Add a subtle noise texture overlay to the background if possible for an organic feel."
-65|  },
-66|  "layout": {
-67|    "spacing": {
-68|      "container": "p-6 md:p-8 lg:p-12",
-69|      "section_gap": "gap-8 md:gap-12",
-70|      "internal_padding": "p-6"
-71|    },
-72|    "grid_system": {
-73|      "dashboard": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6",
-74|      "bento_hero": "col-span-full md:col-span-2 row-span-2",
-75|      "bento_sidebar": "col-span-1 row-span-2"
-76|    },
-77|    "alignment": "Left-align text for readability. Center-align only for specific hero moments."
-78|  },
-79|  "components": {
-80|    "buttons": {
-81|      "primary": "bg-secondary text-white rounded-full px-8 py-6 font-bold hover:scale-105 transition-transform shadow-button",
-82|      "secondary": "bg-white text-primary border-2 border-primary/20 rounded-full px-8 py-6 font-bold hover:bg-primary/5"
-83|    },
-84|    "cards": {
-85|      "style": "bg-surface rounded-3xl border-none shadow-card p-6 hover:shadow-lg transition-shadow duration-300",
-86|      "food_card": "relative overflow-hidden aspect-square rounded-3xl group"
-87|    },
-88|    "inputs": {
-89|      "style": "bg-white/50 border-primary/10 focus:border-primary focus:ring-primary/20 rounded-xl h-12"
-90|    },
-91|    "navigation": {
-92|      "mobile": "fixed bottom-6 left-4 right-4 bg-black/90 text-white backdrop-blur-lg rounded-full p-4 flex justify-around shadow-2xl z-50"
-93|    }
-94|  },
-95|  "assets": {
-96|    "icons": {
-97|      "library": "lucide-react",
-98|      "style": "stroke-width={1.5} className='w-6 h-6'"
-99|    },
-100|    "images": [
-101|      {
-102|        "category": "food_hero",
-103|        "url": "https://images.unsplash.com/photo-1747292718361-c838a9968ec7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwxfHxoZWFsdGh5JTIwZm9vZCUyMGJvd2wlMjBvdmVyaGVhZHxlbnwwfHx8fDE3NzAxMzY4MzZ8MA&ixlib=rb-4.1.0&q=85",
-104|        "description": "Healthy salad bowl overhead view for Food Scanner or Meal Plan section"
-105|      },
-106|      {
-107|        "category": "food_detail",
-108|        "url": "https://images.unsplash.com/photo-1607863680051-d7a0dbaec74a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwxfHxmcmVzaCUyMHZlZ2V0YWJsZXMlMjBmcnVpdHMlMjBhZXN0aGV0aWN8ZW58MHx8fHwxNzcwMTM2ODQyfDA&ixlib=rb-4.1.0&q=85",
-109|        "description": "Fresh tomatoes aesthetic for nutrition details"
-110|      },
-111|      {
-112|        "category": "exercise_hero",
-113|        "url": "https://images.unsplash.com/photo-1750521279808-f66baaed923d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNTl8MHwxfHNlYXJjaHwxfHxwZW9wbGUlMjBleGVyY2lzaW5nJTIwZ3ltfGVufDB8fHx8MTc3MDEzNjg2MXww&ixlib=rb-4.1.0&q=85",
-114|        "description": "Man working out in gym for Exercise Library"
-115|      },
-116|      {
-117|        "category": "progress_hero",
-118|        "url": "https://images.unsplash.com/photo-1764314282846-3ada59e16cfe?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwd2VpZ2h0JTIwc2NhbGUlMjBmZWV0fGVufDB8fHx8MTc3MDEzNjg2NXww&ixlib=rb-4.1.0&q=85",
-119|        "description": "Feet on digital scale for Weight Tracker"
-120|      }
-121|    ]
-122|  },
-123|  "instructions_to_main_agent": {
-124|    "general": "Build a mobile-first PWA-style React app. Focus on the 'Food Scanner' and 'Dashboard' as the core experiences.",
-125|    "theme_setup": "Implement the custom color palette in tailwind.config.js immediately. Use the 'Sage Green' as the brand anchor.",
-126|    "layout_strategy": "Use the Bento Grid for the main dashboard. Do not use a standard list view. Make it visual.",
-127|    "animations": "Use 'framer-motion' for page transitions and entering elements. Stagger the dashboard cards on load.",
-128|    "charts": "Use 'recharts' for the weight progress graph. Style it minimally (hide grid lines, use curves).",
-129|    "mock_data": "Since backend is Python, mock the API calls for now in the frontend to demonstrate the UI flow (e.g., mock food analysis result)."
-130|  },
-131|  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
-132|    "You tend to converge toward generic, 'on distribution' outputs. Avoid this.",
-133|    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
-134|    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
-135|    "Create depth through layered design elements with z-index hierarchy.",
-136|    "Use glass-morphism effects with backdrop filters (12-24px blur).",
-137|    "You MUST NOT apply universal transition. Eg: 'transition: all'. This results in breaking transforms.",
-138|    "You MUST NOT center align the app container, ie do not add '.App { text-align: center; }'.",
-139|    "Always use modern button styles like pill-shaped, or sharp button with interaction animations.",
-140|    "NEVER use AI assistant Emoji characters like 🤖🧠 etc for icons.",
-141|    "Every interaction needs micro-animations - hover states, transitions.",
-142|    "Use 2-3x more spacing than feels comfortable.",
-143|    "Prioritize using pre-existing components from src/components/ui when applicable.",
-144|    "Components MUST use named exports.",
-145|    "Pages MUST use default exports.",
-146|    "Use 'sonner' for toasts."
-147|  ]
-148|}
+{
+  "typography": {
+   "font_family": {
+     "headings": "Manrope, sans-serif",
+     "body": "Inter, sans-serif"
+    },
+   "weights": {
+      "headings": "font-bold",
+     "body": "font-normal"
+    },
+    "sizes": {
+
+"h1": "text-4xl md:text-5xl tracking-tight",
+
+"h2": "text-3xl md:text-4xl tracking-tight",
+
+"h3": "text-2xl md:text-3xl tracking-tight",
+
+"body": "text-base leading-relaxed",
+
+"small": "text-sm text-muted-foreground"
+
+},
+
+"instructions": "Import 'Manrope' and 'Inter' from Google Fonts in index.css. Apply 'font-sans' (Inter) to body and create a utility class '.font-heading' (Manrope) for all headings."
+
+},
+
+"colors": {
+
+"palette": {
+
+"primary": {
+
+| 
+"DEFAULT": "#4A6741",
+
+"foreground": "#FFFFFF",
+
+"description": "Sage Green - Organic, Trust, Health"
+
+},
+
+"secondary": {
+        "DEFAULT": "#F97316",
+        "foreground": "#FFFFFF",
+        "description": "Energetic Orange - Motivation, Action, CTAs"
+      },
+      "background": {
+       "DEFAULT": "#FBFBF9",|        "dark": "#0C0C0C",
+
+"description": "Bone White / Off-White - Natural, Clean"
+     },
+      "surface": {
+        "DEFAULT": "#FFFFFF",
+        "dark": "#1A1A1A",
+        "description": "Pure White for cards to pop against Bone White bg"
+      },
+      "text": {
+       "DEFAULT": "#1A2E05",
+        "muted": "#5C6B45",
+        "description": "Dark Olive instead of pure black for softer contrast"
+      }
+    },
+    "gradients": {
+      "hero": "bg-gradient-to-br from-[#4A6741] to-[#2E4226]",
+      "accent": "bg-gradient-to-r from-[#F97316] to-[#FB923C]"
+    },
+    "instructions": "Update tailwind.config.js with these specific hex codes. Do not use default Tailwind colors for primary/secondary."
+  },
+  "visual_enhancers": {
+    "radius": "rounded-2xl",
+   "shadows": {
+     "card": "shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
+      "button": "shadow-[0_4px_14px_0_rgba(249,115,22,0.39)]"
+    },
+    "glassmorphism": {
+      "enabled": true,
+     "classes": "bg-white/70 backdrop-blur-xl border border-white/20"
+    },
+    "textures": "Add a subtle noise texture overlay to the background if possible for an organic feel."
+  },
+  "layout": {
+    "spacing": {
+      "container": "p-6 md:p-8 lg:p-12",
+      "section_gap": "gap-8 md:gap-12",
+      "internal_padding": "p-6"
+   },
+    "grid_system": {
+      "dashboard": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6",
+      "bento_hero": "col-span-full md:col-span-2 row-span-2",
+      "bento_sidebar": "col-span-1 row-span-2"
+   },
+   "alignment": "Left-align text for readability. Center-align only for specific hero moments."
+ },
+  "components": {
+    "buttons": {
+      "primary": "bg-secondary text-white rounded-full px-8 py-6 font-bold hover:scale-105 transition-transform shadow-button",
+      "secondary": "bg-white text-primary border-2 border-primary/20 rounded-full px-8 py-6 font-bold hover:bg-primary/5"
+    },
+    "cards": {
+      "style": "bg-surface rounded-3xl border-none shadow-card p-6 hover:shadow-lg transition-shadow duration-300",
+      "food_card": "relative overflow-hidden aspect-square rounded-3xl group"
+    },
+         "style": "bg-white/50 border-primary/10 focus:border-primary focus:ring-primary/20 rounded-xl h-12"
+   },
+    "navigation": {
+      "mobile": "fixed bottom-6 left-4 right-4 bg-black/90 text-white backdrop-blur-lg rounded-full p-4 flex justify-around shadow-2xl z-50"
+    }
+  },
+  "assets": {
+    "icons": {
+      "library": "lucide-react",
+      "style": "stroke-width={1.5} className='w-6 h-6'"
+    },
+    "images": [
+     {
+      "category": "food_hero",
+        "url": "https://images.unsplash.com/photo-1747292718361-c838a9968ec7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwxfHxoZWFsdGh5JTIwZm9vZCUyMGJvd2wlMjBvdmVyaGVhZHxlbnwwfHx8fDE3NzAxMzY4MzZ8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Healthy salad bowl overhead view for Food Scanner or Meal Plan section"
+      },
+      {
+        "category": "food_detail",
+        "url": "https://images.unsplash.com/photo-1607863680051-d7a0dbaec74a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwxfHxmcmVzaCUyMHZlZ2V0YWJsZXMlMjBmcnVpdHMlMjBhZXN0aGV0aWN8ZW58MHx8fHwxNzcwMTM2ODQyfDA&ixlib=rb-4.1.0&q=85",
+        "description": "Fresh tomatoes aesthetic for nutrition details"
+      },
+     {
+        "category": "exercise_hero",
+       "url": "https://images.unsplash.com/photo-1750521279808-f66baaed923d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNTl8MHwxfHNlYXJjaHwxfHxwZW9wbGUlMjBleGVyY2lzaW5nJTIwZ3ltfGVufDB8fHx8MTc3MDEzNjg2MXww&ixlib=rb-4.1.0&q=85",
+        "description": "Man working out in gym for Exercise Library"
+     },
+      {
+        "category": "progress_hero",
+        "url": "https://images.unsplash.com/photo-1764314282846-3ada59e16cfe?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwd2VpZ2h0JTIwc2NhbGUlMjBmZWV0fGVufDB8fHx8MTc3MDEzNjg2NXww&ixlib=rb-4.1.0&q=85",
+        "description": "Feet on digital scale for Weight Tracker"
+      }
+    ]
+  },
+  "instructions_to_main_agent": {
+  "general": "Build a mobile-first PWA-style React app. Focus on the 'Food Scanner' and 'Dashboard' as the core experiences.",
+    "theme_setup": "Implement the custom color palette in tailwind.config.js immediately. Use the 'Sage Green' as the brand anchor.",
+    "layout_strategy": "Use the Bento Grid for the main dashboard. Do not use a standard list view. Make it visual.",
+    "animations": "Use 'framer-motion' for page transitions and entering elements. Stagger the dashboard cards on load.",
+    "charts": "Use 'recharts' for the weight progress graph. Style it minimally (hide grid lines, use curves).",
+    "mock_data": "Since backend is Python, mock the API calls for now in the frontend to demonstrate the UI flow (e.g., mock food analysis result)."
+  },
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "You tend to converge toward generic, 'on distribution' outputs. Avoid this.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy.",
+   "Use glass-morphism effects with backdrop filters (12-24px blur).",
+    "You MUST NOT apply universal transition. Eg: 'transition: all'. This results in breaking transforms.",
+    "You MUST NOT center align the app container, ie do not add '.App { text-align: center; }'.",
+    "Always use modern button styles like pill-shaped, or sharp button with interaction animations.",
+   "NEVER use AI assistant Emoji characters like 🤖🧠 etc for icons.",
+   "Every interaction needs micro-animations - hover states, transitions.",
+    "Use 2-3x more spacing than feels comfortable.",
+    "Prioritize using pre-existing components from src/components/ui when applicable.",
+   "Components MUST use named exports.",
+    "Pages MUST use default exports.",
+   "Use 'sonner' for toasts."
+  ]
+}
 Excelent! Acum cer playbook-urile pentru integrări (GPT-4o și Google Auth):
 Action: Calling memory tool: 'INTEGRATION: OpenAI GPT-4o Vision API for food image analysis - analyze food photos and return calorie information, nutritional data, and healthy alternatives
 CONSTRAINTS: 
@@ -2676,78 +2692,78 @@ Observation: report_file: /app/test_reports/iteration_1.json
 
 Action: file_editor view /app/test_reports/iteration_1.json
 Observation: /app/test_reports/iteration_1.json:
-1|{
-2|  "summary": "Completed comprehensive testing of SlimFit Romanian weight loss app. Frontend UI flows work perfectly, but critical backend API issues prevent core features from functioning.",
-3|  
-4|  "backend_issues": {
-5|    "critical_bugs": [
-6|      {
-7|        "endpoint": "/api/progress",
-8|        "issue": "MongoDB ObjectId serialization error causing 520 server errors",
-9|        "impact": "Users cannot add new weight/progress entries",
-10|        "fix_priority": "CRITICAL"
-11|      },
-12|      {
-13|        "endpoint": "/api/food/analyze", 
-14|        "issue": "Server returns 520 errors during food analysis",
-15|        "impact": "AI food scanner feature completely broken",
-16|        "fix_priority": "CRITICAL"
-17|      }
-18|    ],
-19|    "working_endpoints": [
-20|      "/api/auth/login",
-21|      "/api/auth/register", 
-22|      "/api/auth/me",
-23|      "/api/dashboard/stats",
-24|      "/api/exercises",
-25|      "/api/exercises/body-parts",
-26|      "/api/auth/profile",
-27|      "/api/auth/logout"
-28|    ]
-29|  },
-30|
-31|  "frontend_issues": {
-32|    "ui_bugs": [],
-33|    "integration_issues": [
-34|      {
-35|        "flow": "Progress entry submission",
-36|        "issue": "Modal remains open after form submission due to backend API failure",
-37|        "affected_selectors": ["[data-testid='save-progress-btn']", "progress form modal"]
-38|      }
-39|    ],
-40|    "design_issues": []
-41|  },
-42|
-43|  "passed_tests": [
-44|    "Login page loads with all form elements",
-45|    "User authentication (email/password login)",
-46|    "Dashboard displays stats and navigation cards", 
-47|    "Mobile navigation between all pages",
-48|    "Exercise page with body part filtering",
-49|    "Food scanner page UI loads correctly",
-50|    "Progress page UI and chart display",
-51|    "Profile page with editable fields",
-52|    "Logout functionality",
-53|    "Romanian language UI throughout app"
-54|  ],
-55|
-56|  "test_report_links": ["/app/backend_test.py", "/app/backend_test_results.json"],
-57|  
-58|  "success_percentage": {
-59|    "backend": "82% (9/11 API endpoints working)",
-60|    "frontend": "95% (all UI flows work, minor integration issues)"
-61|  },
-62|
-63|  "updated_files": [
-64|    "/app/backend/server.py",
-65|    "/app/backend_test.py"
-66|  ],
-67|
-68|  "action_item_for_main_agent": "Fix critical MongoDB ObjectId serialization errors in progress API and investigate food analysis server errors. Both are core features that users expect to work.",
-69|
-70|  "should_call_test_agent_after_fix": "true",
-71|  "should_main_agent_test_itself": "false"
-72|}
+{
+  "summary": "Completed comprehensive testing of SlimFit Romanian weight loss app. Frontend UI flows work perfectly, but critical backend API issues prevent core features from functioning.",
+  
+  "backend_issues": {
+   "critical_bugs": [
+     {
+        "endpoint": "/api/progress",
+       "issue": "MongoDB ObjectId serialization error causing 520 server errors",
+          "impact": "Users cannot add new weight/progress entries",
+        "fix_priority": "CRITICAL"
+      },
+      {
+       "endpoint": "/api/food/analyze", 
+        "issue": "Server returns 520 errors during food analysis",
+        "impact": "AI food scanner feature completely broken",
+        "fix_priority": "CRITICAL"
+      }
+    ],
+    "working_endpoints": [
+     "/api/auth/login",
+     "/api/auth/register", 
+     "/api/auth/me",
+      "/api/dashboard/stats",
+      "/api/exercises",
+      "/api/exercises/body-parts",
+      "/api/auth/profile",
+      "/api/auth/logout"
+    ]
+  },
+
+  "frontend_issues": {
+   "ui_bugs": [],
+   "integration_issues": [
+      {
+       "flow": "Progress entry submission",
+       "issue": "Modal remains open after form submission due to backend API failure",
+       "affected_selectors": ["[data-testid='save-progress-btn']", "progress form modal"]
+      }
+    ],
+    "design_issues": []
+  },
+
+  "passed_tests": [
+    "Login page loads with all form elements",
+          "User authentication (email/password login)",
+   "Dashboard displays stats and navigation cards", 
+   "Mobile navigation between all pages",
+    "Exercise page with body part filtering",
+    "Food scanner page UI loads correctly",
+    "Progress page UI and chart display",
+    "Profile page with editable fields",
+    "Logout functionality",
+    "Romanian language UI throughout app"
+  ],
+
+  "test_report_links": ["/app/backend_test.py", "/app/backend_test_results.json"],
+  
+  "success_percentage": {
+    "backend": "82% (9/11 API endpoints working)",
+   "frontend": "95% (all UI flows work, minor integration issues)"
+  },
+
+  "updated_files": [
+    "/app/backend/server.py",
+    "/app/backend_test.py"
+  ],
+
+  "action_item_for_main_agent": "Fix critical MongoDB ObjectId serialization errors in progress API and investigate food analysis server errors. Both are core features that users expect to work.",
+
+  "should_call_test_agent_after_fix": "true",
+  "should_main_agent_test_itself": "false"
+}
 Am 2 bug-uri critice de reparat. Să verific log-urile și să repar:
 Action: $ tail -n 50 /var/log/supervisor/backend.err.log | grep -A5 -i "error\|exception\|traceback"
 Observation: File "/root/.venv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 186, in __call__
@@ -2788,102 +2804,101 @@ Observation: Exit code: 0
 
 Action: file_editor view /app/backend/server.py
 Observation: /app/backend/server.py:
-240|            "name": user["name"],
-241|            "picture": user.get("picture")
-242|        }
-243|    }
-244|
-245|@api_router.post("/auth/session")
-246|async def exchange_session(request: Request, response: Response):
-247|    """Exchange Google OAuth session_id for user data"""
-248|    body = await request.json()
-249|    session_id = body.get("session_id")
-250|    
-251|    if not session_id:
-252|        raise HTTPException(status_code=400, detail="session_id required")
-253|    
-254|    # Call Emergent Auth API
-255|    async with aiohttp.ClientSession() as session:
-256|        async with session.get(
-257|            "https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data",
-258|            headers={"X-Session-ID": session_id}
-259|        ) as resp:
-260|            if resp.status != 200:
-261|                raise HTTPException(status_code=401, detail="Invalid session")
-262|            data = await resp.json()
-263|    
-264|    # Check if user exists
-265|    existing_user = await db.users.find_one({"email": data["email"]}, {"_id": 0})
-266|    
-267|    if existing_user:
-268|        user_id = existing_user["user_id"]
-269|        # Update user data
-270|        await db.users.update_one(
-271|            {"user_id": user_id},
-272|            {"$set": {"name": data["name"], "picture": data.get("picture")}}
-273|        )
-274|    else:
-275|        # Create new user
-276|        user_id = f"user_{uuid.uuid4().hex[:12]}"
-277|        user_doc = {
-278|            "user_id": user_id,
-279|            "email": data["email"],
-280|            "name": data["name"],
+            "name": user["name"],
+            "picture": user.get("picture")
+        }
+    }
+
+|@api_router.post("/auth/session")
+|async def exchange_session(request: Request, response: Response):
+    """Exchange Google OAuth session_id for user data"""
+    body = await request.json()
+    session_id = body.get("session_id")
+    
+   if not session_id:
+        raise HTTPException(status_code=400, detail="session_id required")
+    
+    # Call Emergent Auth API
+    async with aiohttp.ClientSession() as session:
+                  async with session.get(
+           "https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data",
+           headers={"X-Session-ID": session_id}
+       ) as resp:
+           if resp.status != 200:
+              raise HTTPException(status_code=401, detail="Invalid session")
+          data = await resp.json()
+  
+    # Check if user exists
+    existing_user = await db.users.find_one({"email": data["email"]}, {"_id": 0})
+    
+    if existing_user:
+       user_id = existing_user["user_id"]
+        # Update user data
+        await db.users.update_one(
+            {"user_id": user_id},
+            {"$set": {"name": data["name"], "picture": data.get("picture")}}
+       )
+    else:
+        # Create new user
+       user_id = f"user_{uuid.uuid4().hex[:12]}"
+        user_doc = {
+           "user_id": user_id,
+           "email": data["email"],
+           "name": data["name"],
 
 
 Action: file_editor view /app/backend/server.py
 Observation: /app/backend/server.py:
-350|    try:
-351|        # Read and encode image
-352|        contents = await file.read()
-353|        base64_image = base64.b64encode(contents).decode('utf-8')
-354|        
-355|        # Initialize chat with GPT-4o
-356|        chat = LlmChat(
-357|            api_key=EMERGENT_LLM_KEY,
-358|            session_id=f"food_analysis_{uuid.uuid4().hex[:8]}",
-359|            system_message="""You are a nutritionist AI assistant. When given a food image, analyze it and provide:
-360|1. The name of the food/dish
-361|2. Estimated calories (be realistic, not inflated)
-362|3. Macronutrients: protein (g), carbs (g), fat (g), fiber (g)
-363|4. 3 healthier alternatives to this food
-364|5. A helpful tip for the user
-365|
-366|Respond ONLY in valid JSON format:
-367|{
-368|    "food_name": "name of food",
-369|    "calories": 500,
-370|    "protein_g": 20.0,
-371|    "carbs_g": 50.0,
-372|    "fat_g": 15.0,
-373|    "fiber_g": 5.0,
-374|    "healthier_alternatives": ["alt1", "alt2", "alt3"],
-375|    "tips": "helpful tip here"
-376|}"""
-377|        ).with_model("openai", "gpt-4o")
-378|        
-379|        # Create message with image
-380|        image_content = ImageContent(image_base64=base64_image)
-381|        user_message = UserMessage(
-382|            text="Analyze this food image and provide nutritional information in JSON format.",
-383|            file_contents=[image_content]
-384|        )
-385|        
-386|        # Get response
-387|        response_text = await chat.send_message(user_message)
-388|        
-389|        # Parse JSON from response
-390|        import json
-391|        logger.info(f"Raw AI response: {response_text[:500]}...")
-392|        
-393|        # Clean response if wrapped in code blocks
-394|        if "```json" in response_text:
-395|            response_text = response_text.split("```json")[1].split("```")[0]
-396|        elif "```" in response_text:
-397|            response_text = response_text.split("```")[1].split("```")[0]
-398|        
-399|        # Try to extract JSON from response
-400|        try:
+   try:
+        # Read and encode image
+        contents = await file.read()
+        base64_image = base64.b64encode(contents).decode('utf-8')
+        
+        # Initialize chat with GPT-4o
+        chat = LlmChat(
+            api_key=EMERGENT_LLM_KEY,
+            session_id=f"food_analysis_{uuid.uuid4().hex[:8]}",
+            system_message="""You are a nutritionist AI assistant. When given a food image, analyze it and provide:
+1. The name of the food/dish
+2. Estimated calories (be realistic, not inflated)
+3. Macronutrients: protein (g), carbs (g), fat (g), fiber (g)
+4. 3 healthier alternatives to this food
+5. A helpful tip for the user
+
+Respond ONLY in valid JSON format:
+{
+    "food_name": "name of food",
+    "calories": 500,
+    "protein_g": 20.0,
+    "carbs_g": 50.0,
+    "fat_g": 15.0,
+   "fiber_g": 5.0,
+   "healthier_alternatives": ["alt1", "alt2", "alt3"],
+    "tips": "helpful tip here"
+}"""
+        ).with_model("openai", "gpt-4o")
+        
+        # Create message with image
+        image_content = ImageContent(image_base64=base64_image)
+        user_message = UserMessage(
+            text="Analyze this food image and provide nutritional information in JSON format.",
+            file_contents=[image_content]
+       )
+        
+       # Get response
+        response_text = await chat.send_message(user_message)
+       
+       # Parse JSON from response
+        import json
+       logger.info(f"Raw AI response: {response_text[:500]}...")
+       # Clean response if wrapped in code blocks
+        if "```json" in response_text:
+          response_text = response_text.split("```json")[1].split("```")[0]
+       elif "```" in response_text:
+            response_text = response_text.split("```")[1].split("```")[0]
+        
+        # Try to extract JSON from response
+        try:
 Văd problemele. Trebuie să corectez:
 1. În `add_progress` - document-ul inserat nu are _id exclus când îl returnez
 2. Food analysis - `file_contents` trebuie să fie `image_contents`
@@ -3013,3 +3028,4 @@ curl -s -X POST "$API_URL/api/food/analyze" \
   -F "file=@/tmp/test_food.jpg" 2>&1 | head -c 500
 Observation: Internal Server Error
 Exit code: 0
+
