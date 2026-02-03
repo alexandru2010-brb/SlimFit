@@ -1,0 +1,3015 @@
+**original_problem_statement**: "as vrea sa imi fai o aplicatie complet gratuita pentru slabire. Sa faci o poza la ce mananci si sa iti spuna exact cate kalori sunt si ce trebuie sa inlocuiesti. Sa iti spuna ce exercitii trebuie sa faci pentru fiecare parte a corpului. Sa iti scrii acolo cate kilograme ai si ce inaltime in fiecare luna pentru ati vedea procesul. Mai vreau sa fie foarte protejata de virusi si sa fie usor si grumos de utilizat" **user_choices**: - AI: GPT-4o pentru analiza alimentelor din poze - Autentificare: Email/parolă + Google Login - Features: Reminder-uri, grafice vizuale pentru progres, plan alimentar personalizat - Design: Ușor și frumos de utilizat **key_functionalities**: - "Food Photo Analysis" - încarcă o poză cu mâncare și primești calorii + sugestii de înlocuire - "Exercise Library" - exerciții pentru fiecare parte a corpului - "Weight & Height Tracker" - tracking lunar cu grafice - "Personalized Meal Plan" - plan alimentar bazat pe obiective - "Reminders" - notificări pentru mese și exerciții - "Dashboard" - vedere de ansamblu progres - "User Profile" - setări și obiective **app_type**: health_fitness_dashboard **functionalities_and_pages**: - Landing/Auth page - login cu email sau Google - Dashboard - vedere generală progres, calorii azi, exerciții - Food Scanner - upload poză mâncare pentru analiză AI - Exercise Library - categorii exerciții pe grup muscular - Progress Tracker - grafice greutate/înălțime lunare - Meal Planner - plan alimentar personalizat - Profile/Settings - obiective, reminder-uri **target_audience**: Persoane care vor să slăbească, să-și urmărească caloriile și să facă exerciții - utilizatori din România **constraints_and_context**: - React frontend + FastAPI backend + MongoDB - Must be mobile-friendly (responsive) - Clean, motivational design for fitness app - Easy to use interface for food photo capture - Visual progress charts
+[{"role": "tool", "tool_call_id": "call_db7b8e421e1c4fea87581e11a91f", "name": "mcp_create_file", "content": [{"type": "text", "text": "Create successful: /app/design_guidelines.json"}], "is_error": false, "request_id": "8d572adc-d491-4f81-9c0c-2fbf4fc261af", "iteration_number": 2}, {"role": "tool", "tool_call_id": "call_63cdd1fe82c7406bb83c480ab1f2", "name": "finish", "content": [{"type": "text", "text": "\n Summary: I have created the design guidelines for the weight loss application.\n\nDesign Strategy:\n- Theme: "Organic & Vibrant" - A fresh Sage Green primary with Energetic Orange accents to balance health with motivation.\n- Typography: Manrope for friendly, modern headings and Inter for clean readability.\n- Layout: Mobile-first Bento Grid dashboard for a modern, app-like feel.\n- Assets: Selected high-quality images for food, exercise, and progress tracking.\n\nNext Steps:\n- The main agent should read /app/design_guidelines.json and start implementing the frontend.\n- Configure Tailwind with the specific color palette.\n- Build the Dashboard and Food Scanner interfaces using the defined components."}], "is_error": false, "request_id": "8d572adc-d491-4f81-9c0c-2fbf4fc261af", "iteration_number": 2}]
+Acum iau playbook-ul pentru integrări:
+Action: file_editor view /app/design_guidelines.json
+Observation: /app/design_guidelines.json:
+1|{
+2|  "typography": {
+3|    "font_family": {
+4|      "headings": "Manrope, sans-serif",
+5|      "body": "Inter, sans-serif"
+6|    },
+7|    "weights": {
+8|      "headings": "font-bold",
+9|      "body": "font-normal"
+10|    },
+11|    "sizes": {
+12|      "h1": "text-4xl md:text-5xl tracking-tight",
+13|      "h2": "text-3xl md:text-4xl tracking-tight",
+14|      "h3": "text-2xl md:text-3xl tracking-tight",
+15|      "body": "text-base leading-relaxed",
+16|      "small": "text-sm text-muted-foreground"
+17|    },
+18|    "instructions": "Import 'Manrope' and 'Inter' from Google Fonts in index.css. Apply 'font-sans' (Inter) to body and create a utility class '.font-heading' (Manrope) for all headings."
+19|  },
+20|  "colors": {
+21|    "palette": {
+22|      "primary": {
+23|        "DEFAULT": "#4A6741",
+24|        "foreground": "#FFFFFF",
+25|        "description": "Sage Green - Organic, Trust, Health"
+26|      },
+27|      "secondary": {
+28|        "DEFAULT": "#F97316",
+29|        "foreground": "#FFFFFF",
+30|        "description": "Energetic Orange - Motivation, Action, CTAs"
+31|      },
+32|      "background": {
+33|        "DEFAULT": "#FBFBF9",
+34|        "dark": "#0C0C0C",
+35|        "description": "Bone White / Off-White - Natural, Clean"
+36|      },
+37|      "surface": {
+38|        "DEFAULT": "#FFFFFF",
+39|        "dark": "#1A1A1A",
+40|        "description": "Pure White for cards to pop against Bone White bg"
+41|      },
+42|      "text": {
+43|        "DEFAULT": "#1A2E05",
+44|        "muted": "#5C6B45",
+45|        "description": "Dark Olive instead of pure black for softer contrast"
+46|      }
+47|    },
+48|    "gradients": {
+49|      "hero": "bg-gradient-to-br from-[#4A6741] to-[#2E4226]",
+50|      "accent": "bg-gradient-to-r from-[#F97316] to-[#FB923C]"
+51|    },
+52|    "instructions": "Update tailwind.config.js with these specific hex codes. Do not use default Tailwind colors for primary/secondary."
+53|  },
+54|  "visual_enhancers": {
+55|    "radius": "rounded-2xl",
+56|    "shadows": {
+57|      "card": "shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
+58|      "button": "shadow-[0_4px_14px_0_rgba(249,115,22,0.39)]"
+59|    },
+60|    "glassmorphism": {
+61|      "enabled": true,
+62|      "classes": "bg-white/70 backdrop-blur-xl border border-white/20"
+63|    },
+64|    "textures": "Add a subtle noise texture overlay to the background if possible for an organic feel."
+65|  },
+66|  "layout": {
+67|    "spacing": {
+68|      "container": "p-6 md:p-8 lg:p-12",
+69|      "section_gap": "gap-8 md:gap-12",
+70|      "internal_padding": "p-6"
+71|    },
+72|    "grid_system": {
+73|      "dashboard": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6",
+74|      "bento_hero": "col-span-full md:col-span-2 row-span-2",
+75|      "bento_sidebar": "col-span-1 row-span-2"
+76|    },
+77|    "alignment": "Left-align text for readability. Center-align only for specific hero moments."
+78|  },
+79|  "components": {
+80|    "buttons": {
+81|      "primary": "bg-secondary text-white rounded-full px-8 py-6 font-bold hover:scale-105 transition-transform shadow-button",
+82|      "secondary": "bg-white text-primary border-2 border-primary/20 rounded-full px-8 py-6 font-bold hover:bg-primary/5"
+83|    },
+84|    "cards": {
+85|      "style": "bg-surface rounded-3xl border-none shadow-card p-6 hover:shadow-lg transition-shadow duration-300",
+86|      "food_card": "relative overflow-hidden aspect-square rounded-3xl group"
+87|    },
+88|    "inputs": {
+89|      "style": "bg-white/50 border-primary/10 focus:border-primary focus:ring-primary/20 rounded-xl h-12"
+90|    },
+91|    "navigation": {
+92|      "mobile": "fixed bottom-6 left-4 right-4 bg-black/90 text-white backdrop-blur-lg rounded-full p-4 flex justify-around shadow-2xl z-50"
+93|    }
+94|  },
+95|  "assets": {
+96|    "icons": {
+97|      "library": "lucide-react",
+98|      "style": "stroke-width={1.5} className='w-6 h-6'"
+99|    },
+100|    "images": [
+101|      {
+102|        "category": "food_hero",
+103|        "url": "https://images.unsplash.com/photo-1747292718361-c838a9968ec7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwxfHxoZWFsdGh5JTIwZm9vZCUyMGJvd2wlMjBvdmVyaGVhZHxlbnwwfHx8fDE3NzAxMzY4MzZ8MA&ixlib=rb-4.1.0&q=85",
+104|        "description": "Healthy salad bowl overhead view for Food Scanner or Meal Plan section"
+105|      },
+106|      {
+107|        "category": "food_detail",
+108|        "url": "https://images.unsplash.com/photo-1607863680051-d7a0dbaec74a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwxfHxmcmVzaCUyMHZlZ2V0YWJsZXMlMjBmcnVpdHMlMjBhZXN0aGV0aWN8ZW58MHx8fHwxNzcwMTM2ODQyfDA&ixlib=rb-4.1.0&q=85",
+109|        "description": "Fresh tomatoes aesthetic for nutrition details"
+110|      },
+111|      {
+112|        "category": "exercise_hero",
+113|        "url": "https://images.unsplash.com/photo-1750521279808-f66baaed923d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNTl8MHwxfHNlYXJjaHwxfHxwZW9wbGUlMjBleGVyY2lzaW5nJTIwZ3ltfGVufDB8fHx8MTc3MDEzNjg2MXww&ixlib=rb-4.1.0&q=85",
+114|        "description": "Man working out in gym for Exercise Library"
+115|      },
+116|      {
+117|        "category": "progress_hero",
+118|        "url": "https://images.unsplash.com/photo-1764314282846-3ada59e16cfe?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwd2VpZ2h0JTIwc2NhbGUlMjBmZWV0fGVufDB8fHx8MTc3MDEzNjg2NXww&ixlib=rb-4.1.0&q=85",
+119|        "description": "Feet on digital scale for Weight Tracker"
+120|      }
+121|    ]
+122|  },
+123|  "instructions_to_main_agent": {
+124|    "general": "Build a mobile-first PWA-style React app. Focus on the 'Food Scanner' and 'Dashboard' as the core experiences.",
+125|    "theme_setup": "Implement the custom color palette in tailwind.config.js immediately. Use the 'Sage Green' as the brand anchor.",
+126|    "layout_strategy": "Use the Bento Grid for the main dashboard. Do not use a standard list view. Make it visual.",
+127|    "animations": "Use 'framer-motion' for page transitions and entering elements. Stagger the dashboard cards on load.",
+128|    "charts": "Use 'recharts' for the weight progress graph. Style it minimally (hide grid lines, use curves).",
+129|    "mock_data": "Since backend is Python, mock the API calls for now in the frontend to demonstrate the UI flow (e.g., mock food analysis result)."
+130|  },
+131|  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+132|    "You tend to converge toward generic, 'on distribution' outputs. Avoid this.",
+133|    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+134|    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+135|    "Create depth through layered design elements with z-index hierarchy.",
+136|    "Use glass-morphism effects with backdrop filters (12-24px blur).",
+137|    "You MUST NOT apply universal transition. Eg: 'transition: all'. This results in breaking transforms.",
+138|    "You MUST NOT center align the app container, ie do not add '.App { text-align: center; }'.",
+139|    "Always use modern button styles like pill-shaped, or sharp button with interaction animations.",
+140|    "NEVER use AI assistant Emoji characters like 🤖🧠 etc for icons.",
+141|    "Every interaction needs micro-animations - hover states, transitions.",
+142|    "Use 2-3x more spacing than feels comfortable.",
+143|    "Prioritize using pre-existing components from src/components/ui when applicable.",
+144|    "Components MUST use named exports.",
+145|    "Pages MUST use default exports.",
+146|    "Use 'sonner' for toasts."
+147|  ]
+148|}
+Excelent! Acum cer playbook-urile pentru integrări (GPT-4o și Google Auth):
+Action: Calling memory tool: 'INTEGRATION: OpenAI GPT-4o Vision API for food image analysis - analyze food photos and return calorie information, nutritional data, and healthy alternatives
+CONSTRAINTS: 
+- Using Emergent LLM Key
+- FastAPI backend (Python)
+- React frontend
+- Need to analyze images and return structured JSON with calories, macros, and food replacement suggestions. Using pre-executed response'
+Observation: Memory Fetched
+Acum obțin playbook-ul pentru Google Auth:
+Action: Calling memory tool: 'INTEGRATION: Emergent-managed Google Auth for social login
+CONSTRAINTS:
+- FastAPI backend (Python)
+- React frontend
+- Need both email/password authentication (JWT) AND Google social login
+- MongoDB for user storage. Using pre-executed response'
+Observation: Memory Fetched
+Am toate playbook-urile. Acum să salvez fișierele de testare și să încep implementarea:
+Action: file_editor create /app/image_testing.md --file-text "# TEST AGENT PROMPT – IMAGE INTEGRATION RULES
+
+You are the Test Agent responsible for validating image integrations.
+Follow these rules exactly. Do not overcomplicate.
+
+## Image Handling Rules
+- Always use base64-encoded images for all tests and requests.
+- Accepted formats: JPEG, PNG, WEBP only.
+- Do not use SVG, BMP, HEIC, or other formats.
+- Do not upload blank, solid-color, or uniform-variance images.
+- Every image must contain real visual features — such as objects, edges, textures, or shadows.
+- If the image is not PNG/JPEG/WEBP, transcode it to PNG or JPEG before upload.
+
+## Fix Example:
+If you read a .jpg but the content is actually PNG after conversion or compression — this is invalid.
+Always re-detect and update the MIME after transformations.
+
+- If the image is animated (e.g., GIF, APNG, WEBP animation), extract the first frame only.
+- Resize large images to reasonable bounds (avoid oversized payloads).
+"
+Observation: Create successful: /app/image_testing.md
+Am toate playbook-urile. Acum să salvez fișierele de testare și să încep implementarea:
+Action: file_editor create /app/image_testing.md --file-text "# TEST AGENT PROMPT – IMAGE INTEGRATION RULES
+
+You are the Test Agent responsible for validating image integrations.
+Follow these rules exactly. Do not overcomplicate.
+
+## Image Handling Rules
+- Always use base64-encoded images for all tests and requests.
+- Accepted formats: JPEG, PNG, WEBP only.
+- Do not use SVG, BMP, HEIC, or other formats.
+- Do not upload blank, solid-color, or uniform-variance images.
+- Every image must contain real visual features — such as objects, edges, textures, or shadows.
+- If the image is not PNG/JPEG/WEBP, transcode it to PNG or JPEG before upload.
+
+## Fix Example:
+If you read a .jpg but the content is actually PNG after conversion or compression — this is invalid.
+Always re-detect and update the MIME after transformations.
+
+- If the image is animated (e.g., GIF, APNG, WEBP animation), extract the first frame only.
+- Resize large images to reasonable bounds (avoid oversized payloads).
+"
+Observation: Create successful: /app/image_testing.md
+
+Action: file_editor create /app/auth_testing.md --file-text "# Auth-Gated App Testing Playbook
+
+## Step 1: Create Test User & Session
+```bash
+mongosh --eval \"
+use('test_database');
+var userId = 'test-user-' + Date.now();
+var sessionToken = 'test_session_' + Date.now();
+db.users.insertOne({
+  user_id: userId,
+  email: 'test.user.' + Date.now() + '@example.com',
+  name: 'Test User',
+  picture: 'https://via.placeholder.com/150',
+  created_at: new Date()
+});
+db.user_sessions.insertOne({
+  user_id: viserId,
+  session_token: sessionToken,
+  expires_at: new Date(Date.now() + 7*24*60*60*1000),
+  created_at: new Date()
+});
+print('Session token: ' + sessionToken);
+print('User ID: ' + userId);
+\"
+```
+
+## Step 2: Test Backend API
+```bash
+# Test auth endpoint
+curl -X GET \"$BACKEND_URL/api/auth/me\" \
+  -H \"Authorization: Bearer YOUR_SESSION_TOKEN\"
+
+# Test protected endpoints
+curl -X GET \"$BACKEND_URL/api/progress\" \
+  -H \"Authorization: Bearer YOUR_SESSION_TOKEN\"
+```
+
+## Step 3: Browser Testing
+```javascript
+// Set cookie and navigate
+await page.context.add_cookies([{
+    \"name\": \"session_token\",
+    \"value\": \"YOUR_SESSION_TOKEN\",
+    \"domain\": \"your-app.com\",
+    \"path\": \"/\",
+    \"httpOnly\": true,
+    \"secure\": true,
+    \"sameSite\": \"None\"
+}]);
+await page.goto(\"https://your-app.com\");
+```
+
+## Checklist
+- User document has user_id field (custom UUID, MongoDB's _id is separate)
+- Session user_id matches user's user_id exactly
+- All queries use `{\"_id\": 0}` projection to exclude MongoDB's _id
+- Backend queries use user_id (not _id or id)
+- API returns user data with user_id field (not 401/404)
+- Browser loads dashboard (not login page)
+
+## Success Indicators
+✅ /api/auth/me returns user data
+✅ Dashboard loads without redirect
+✅ CRUD operations work
+
+## Failure Indicators
+❌ \"User not found\" errors
+❌ 401 Unauthorized responses
+❌ Redirect to login page
+"
+Observation: Create successful: /app/auth_testing.md
+Acum să implementez aplicația completă. Voi crea backend-ul și frontend-ul:
+
+<Plan>
+1. Backend (server.py): 
+   - Auth endpoints (register, login JWT, Google OAuth session, logout, me)
+   - Food analysis endpoint cu GPT-4o Vision
+   - User progress tracking (weight/height)
+   - Exercise library
+   - Meal plans
+   - Reminders
+
+2. Frontend:
+   - Auth pages (Login/Register cu Email + Google)
+   - Dashboard cu Bento Grid
+   - Food Scanner (upload poză + analiza AI)
+   - Exercise Library (categorii pe grupuri musculare)
+   - Progress Tracker (grafice greutate)
+   - Meal Planner
+   - Profile/Settings
+</Plan>
+Action: $ cd /app/backend && pip install aiohttp pillow && pip freeze > requirements.txt
+Observation: Looking in indexes: https://pypi.org/simple, https://d33sy5i8bnduwe.cloudfront.net/simple/
+Requirement already satisfied: aiohttp in /root/.venv/lib/python3.11/site-packages (3.13.3)
+Requirement already satisfied: pillow in /root/.venv/lib/python3.11/site-packages (12.1.0)
+Requirement already satisfied: aiohappyeyeballs>=2.5.0 in /root/.venv/lib/python3.11/site-packages (from aiohttp) (2.6.1)
+Requirement already satisfied: aiosignal>=1.4.0 in /root/.venv/lib/python3.11/site-packages (from aiohttp) (1.4.0)
+Requirement already satisfied: attrs>=17.3.0 in /root/.venv/lib/python3.11/site-packages (from aiohttp) (25.4.0)
+Requirement already satisfied: frozenlist>=1.1.1 in /root/.venv/lib/python3.11/site-packages (from aiohttp) (1.8.0)
+Requirement already satisfied: multidict<7.0,>=4.5 in /root/.venv/lib/python3.11/site-packages (from aiohttp) (6.7.1)
+Requirement already satisfied: propcache>=0.2.0 in /root/.venv/lib/python3.11/site-packages (from aiohttp) (0.4.1)
+Requirement already satisfied: yarl<2.0,>=1.17.0 in /root/.venv/lib/python3.11/site-packages (from aiohttp) (1.22.0)
+Requirement already satisfied: idna>=2.0 in /root/.venv/lib/python3.11/site-packages (from yarl<2.0,>=1.17.0->aiohttp) (3.11)
+Requirement already satisfied: typing-extensions>=4.2 in /root/.venv/lib/python3.11/site-packages (from aiosignal>=1.4.0->aiohttp) (4.15.0)
+Exit code: 0
+
+Action: file_editor str_replace /app/backend/.env --old-str "MONGO_URL=\"mongodb://localhost:27017\"
+DB_NAME=\"test_database\"
+CORS_ORIGINS=\"*\"" --new-str "MONGO_URL=\"mongodb://localhost:27017\"
+DB_NAME=\"test_database\"
+CORS_ORIGINS=\"*\"
+EMERGENT_LLM_KEY=sk-emergent-729F990Df482dB2004
+JWT_SECRET=slimfit_super_secret_key_2024_secure"
+Observation: Edit was successful.
+
+Action: file_editor create /app/backend/server.py --file-text "from fastapi import FastAPI, APIRouter, HTTPException, Depends, Request, Response, UploadFile, File
+from fastapi.responses import JSONResponse
+from dotenv import load_dotenv
+from starlette.middleware.cors import CORSMiddleware
+from motor.motor_asyncio import AsyncIOMotorClient
+import os
+import logging
+from pathlib import Path
+from pydantic import BaseModel, Field, EmailStr
+from typing import List, Optional
+import uuid
+from datetime import datetime, timezone, timedelta
+import bcrypt
+import jwt
+import base64
+import aiohttp
+from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
+
+ROOT_DIR = Path(__file__).parent
+load_dotenv(ROOT_DIR / '.env')
+
+# MongoDB connection
+mongo_url = os.environ.get('MONGO_URL')
+client = AsyncIOMotorClient(mongo_url)
+db = client[os.environ.get('DB_NAME')]
+
+# JWT Config
+JWT_SECRET = os.environ.get('JWT_SECRET', 'fallback_secret_key')
+JWT_ALGORITHM = \"HS256\"
+JWT_EXPIRY_DAYS = 7
+
+# Emergent LLM Key
+EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY')
+
+app = FastAPI()
+api_router = APIRouter(prefix=\"/api\")
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+# ==================== MODELS ====================
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str
+    name: str
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+class User(BaseModel):
+    user_id: str
+    email: str
+    name: str
+    picture: Optional[str] = None
+    height_cm: Optional[float] = None
+    target_weight_kg: Optional[float] = None
+    created_at: datetime
+
+class UserUpdate(BaseModel):
+    name: Optional[str] = None
+    height_cm: Optional[float] = None
+    target_weight_kg: Optional[float] = None
+
+class ProgressEntry(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    weight_kg: float
+    height_cm: Optional[float] = None
+    date: datetime
+    notes: Optional[str] = None
+
+class ProgressCreate(BaseModel):
+    weight_kg: float
+    height_cm: Optional[float] = None
+    notes: Optional[str] = None
+
+class FoodAnalysisResult(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    food_name: str
+    calories: int
+    protein_g: float
+    carbs_g: float
+    fat_g: float
+    fiber_g: float
+    healthier_alternatives: List[str]
+    tips: str
+    timestamp: datetime
+
+class Exercise(BaseModel):
+    id: str
+    name: str
+    body_part: str
+    description: str
+    difficulty: str
+    duration_minutes: int
+    calories_burned: int
+    image_url: Optional[str] = None
+
+class MealPlan(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    day_of_week: str
+    meal_type: str
+    food_name: str
+    calories: int
+    protein_g: float
+    carbs_g: float
+    fat_g: float
+
+class MealPlanCreate(BaseModel):
+    day_of_week: str
+    meal_type: str
+    food_name: str
+    calories: int
+    protein_g: float
+    carbs_g: float
+    fat_g: float
+
+class Reminder(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    type: str
+    time: str
+    enabled: bool = True
+    message: str
+
+class ReminderCreate(BaseModel):
+    type: str
+    time: str
+    message: str
+    enabled: bool = True
+
+# ==================== AUTH HELPERS ====================
+
+def hash_password(password: str) -> str:
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+
+def verify_password(password: str, hashed: str) -> bool:
+    return bcrypt.checkpw(password.encode(), hashed.encode())
+
+def create_jwt_token(user_id: str) -> str:
+    payload = {
+        \"user_id\": user_id,
+        \"exp\": datetime.now(timezone.utc) + timedelta(days=JWT_EXPIRY_DAYS)
+    }
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+
+async def get_current_user(request: Request) -> dict:
+    # Check cookie first
+    session_token = request.cookies.get(\"session_token\")
+    
+    # Then check Authorization header
+    if not session_token:
+        auth_header = request.headers.get(\"Authorization\")
+        if auth_header and auth_header.startswith(\"Bearer \"):
+            session_token = auth_header.split(\" \")[1]
+    
+    if not session_token:
+        raise HTTPException(status_code=401, detail=\"Not authenticated\")
+    
+    # Check if it's a session token from Google OAuth
+    session_doc = await db.user_sessions.find_one({\"session_token\": session_token}, {\"_id\": 0})
+    if session_doc:
+        expires_at = session_doc.get(\"expires_at\")
+        if isinstance(expires_at, str):
+            expires_at = datetime.fromisoformat(expires_at)
+        if expires_at.tzinfo is None:
+            expires_at = expires_at.replace(tzinfo=timezone.utc)
+        if expires_at < datetime.now(timezone.utc):
+            raise HTTPException(status_code=401, detail=\"Session expired\")
+        
+        user = await db.users.find_one({\"user_id\": session_doc[\"user_id\"]}, {\"_id\": 0})
+        if not user:
+            raise HTTPException(status_code=401, detail=\"User not found\")
+        return user
+    
+    # Check if it's a JWT token
+    try:
+        payload = jwt.decode(session_token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        user_id = payload.get(\"user_id\")
+        user = await db.users.find_one({\"user_id\": user_id}, {\"_id\": 0})
+        if not user:
+            raise HTTPException(status_code=401, detail=\"User not found\")
+        return user
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail=\"Token expired\")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail=\"Invalid token\")
+
+# ==================== AUTH ENDPOINTS ====================
+
+@api_router.post(\"/auth/register\")
+async def register(user_data: UserCreate):
+    existing = await db.users.find_one({\"email\": user_data.email}, {\"_id\": 0})
+    if existing:
+        raise HTTPException(status_code=400, detail=\"Email already registered\")
+    
+    user_id = f\"user_{uuid.uuid4().hex[:12]}\"
+    user_doc = {
+        \"user_id\": user_id,
+        \"email\": user_data.email,
+        \"name\": user_data.name,
+        \"password_hash\": hash_password(user_data.password),
+        \"picture\": None,
+        \"height_cm\": None,
+        \"target_weight_kg\": None,
+        \"created_at\": datetime.now(timezone.utc).isoformat()
+    }
+    await db.users.insert_one(user_doc)
+    
+    token = create_jwt_token(user_id)
+    return {\"token\": token, \"user\": {\"user_id\": user_id, \"email\": user_data.email, \"name\": user_data.name}}
+
+@api_router.post(\"/auth/login\")
+async def login(credentials: UserLogin, response: Response):
+    user = await db.users.find_one({\"email\": credentials.email}, {\"_id\": 0})
+    if not user or not verify_password(credentials.password, user.get(\"password_hash\", \"\")):
+        raise HTTPException(status_code=401, detail=\"Invalid credentials\")
+    
+    token = create_jwt_token(user[\"user_id\"])
+    response.set_cookie(
+        key=\"session_token\",
+        value=token,
+        httponly=True,
+        secure=True,
+        samesite=\"none\",
+        path=\"/\",
+        max_age=60*60*24*7
+    )
+    
+    return {
+        \"token\": token,
+        \"user\": {
+            \"user_id\": user[\"user_id\"],
+            \"email\": user[\"email\"],
+            \"name\": user[\"name\"],
+            \"picture\": user.get(\"picture\")
+        }
+    }
+
+@api_router.post(\"/auth/session\")
+async def exchange_session(request: Request, response: Response):
+    \"\"\"Exchange Google OAuth session_id for user data\"\"\"
+    body = await request.json()
+    session_id = body.get(\"session_id\")
+    
+    if not session_id:
+        raise HTTPException(status_code=400, detail=\"session_id required\")
+    
+    # Call Emergent Auth API
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            \"https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data\",
+            headers={\"X-Session-ID\": session_id}
+        ) as resp:
+            if resp.status != 200:
+                raise HTTPException(status_code=401, detail=\"Invalid session\")
+            data = await resp.json()
+    
+    # Check if user exists
+    existing_user = await db.users.find_one({\"email\": data[\"email\"]}, {\"_id\": 0})
+    
+    if existing_user:
+        user_id = existing_user[\"user_id\"]
+        # Update user data
+        await db.users.update_one(
+            {\"user_id\": user_id},
+            {\"$set\": {\"name\": data[\"name\"], \"picture\": data.get(\"picture\")}}
+        )
+    else:
+        # Create new user
+        user_id = f\"user_{uuid.uuid4().hex[:12]}\"
+        user_doc = {
+            \"user_id\": user_id,
+            \"email\": data[\"email\"],
+            \"name\": data[\"name\"],
+            \"picture\": data.get(\"picture\"),
+            \"password_hash\": None,
+            \"height_cm\": None,
+            \"target_weight_kg\": None,
+            \"created_at\": datetime.now(timezone.utc).isoformat()
+        }
+        await db.users.insert_one(user_doc)
+    
+    # Store session
+    session_token = data.get(\"session_token\", str(uuid.uuid4()))
+    await db.user_sessions.insert_one({
+        \"user_id\": user_id,
+        \"session_token\": session_token,
+        \"expires_at\": (datetime.now(timezone.utc) + timedelta(days=7)).isoformat(),
+        \"created_at\": datetime.now(timezone.utc).isoformat()
+    })
+    
+    response.set_cookie(
+        key=\"session_token\",
+        value=session_token,
+        httponly=True,
+        secure=True,
+        samesite=\"none\",
+        path=\"/\",
+        max_age=60*60*24*7
+    )
+    
+    user = await db.users.find_one({\"user_id\": user_id}, {\"_id\": 0})
+    return {
+        \"user\": {
+            \"user_id\": user[\"user_id\"],
+            \"email\": user[\"email\"],
+            \"name\": user[\"name\"],
+            \"picture\": user.get(\"picture\")
+        }
+    }
+
+@api_router.get(\"/auth/me\")
+async def get_me(user: dict = Depends(get_current_user)):
+    return {
+        \"user_id\": user[\"user_id\"],
+        \"email\": user[\"email\"],
+        \"name\": user[\"name\"],
+        \"picture\": user.get(\"picture\"),
+        \"height_cm\": user.get(\"height_cm\"),
+        \"target_weight_kg\": user.get(\"target_weight_kg\")
+    }
+
+@api_router.post(\"/auth/logout\")
+async def logout(request: Request, response: Response):
+    session_token = request.cookies.get(\"session_token\")
+    if session_token:
+        await db.user_sessions.delete_one({\"session_token\": session_token})
+    response.delete_cookie(key=\"session_token\", path=\"/\")
+    return {\"message\": \"Logged out\"}
+
+@api_router.put(\"/auth/profile\")
+async def update_profile(update_data: UserUpdate, user: dict = Depends(get_current_user)):
+    update_fields = {k: v for k, v in update_data.model_dump().items() if v is not None}
+    if update_fields:
+        await db.users.update_one({\"user_id\": user[\"user_id\"]}, {\"$set\": update_fields})
+    updated_user = await db.users.find_one({\"user_id\": user[\"user_id\"]}, {\"_id\": 0})
+    return updated_user
+
+# ==================== FOOD ANALYSIS ====================
+
+@api_router.post(\"/food/analyze\")
+async def analyze_food(file: UploadFile = File(...), user: dict = Depends(get_current_user)):
+    \"\"\"Analyze food image using GPT-4o Vision\"\"\"
+    try:
+        # Read and encode image
+        contents = await file.read()
+        base64_image = base64.b64encode(contents).decode('utf-8')
+        
+        # Initialize chat with GPT-4o
+        chat = LlmChat(
+            api_key=EMERGENT_LLM_KEY,
+            session_id=f\"food_analysis_{uuid.uuid4().hex[:8]}\",
+            system_message=\"\"\"You are a nutritionist AI assistant. When given a food image, analyze it and provide:
+1. The name of the food/dish
+2. Estimated calories (be realistic, not inflated)
+3. Macronutrients: protein (g), carbs (g), fat (g), fiber (g)
+4. 3 healthier alternatives to this food
+5. A helpful tip for the user
+
+Respond ONLY in valid JSON format:
+{
+    \"food_name\": \"name of food\",
+    \"calories\": 500,
+    \"protein_g\": 20.0,
+    \"carbs_g\": 50.0,
+    \"fat_g\": 15.0,
+    \"fiber_g\": 5.0,
+    \"healthier_alternatives\": [\"alt1\", \"alt2\", \"alt3\"],
+    \"tips\": \"helpful tip here\"
+}\"\"\"
+        ).with_model(\"openai\", \"gpt-4o\")
+        
+        # Create message with image
+        image_content = ImageContent(image_base64=base64_image)
+        user_message = UserMessage(
+            text=\"Analyze this food image and provide nutritional information in JSON format.\",
+            image_contents=[image_content]
+        )
+        
+        # Get response
+        response_text = await chat.send_message(user_message)
+        
+        # Parse JSON from response
+        import json
+        # Clean response if wrapped in code blocks
+        if \"```json\" in response_text:
+            response_text = response_text.split(\"```json\")[1].split(\"```\")[0]
+        elif \"```\" in response_text:
+            response_text = response_text.split(\"```\")[1].split(\"```\")[0]
+        
+        result = json.loads(response_text.strip())
+        
+        # Save to database
+        analysis_doc = {
+            \"id\": str(uuid.uuid4()),
+            \"user_id\": user[\"user_id\"],
+            \"food_name\": result[\"food_name\"],
+            \"calories\": result[\"calories\"],
+            \"protein_g\": result[\"protein_g\"],
+            \"carbs_g\": result[\"carbs_g\"],
+            \"fat_g\": result[\"fat_g\"],
+            \"fiber_g\": result.get(\"fiber_g\", 0),
+            \"healthier_alternatives\": result[\"healthier_alternatives\"],
+            \"tips\": result[\"tips\"],
+            \"timestamp\": datetime.now(timezone.utc).isoformat()
+        }
+        await db.food_analyses.insert_one(analysis_doc)
+        
+        return analysis_doc
+        
+    except Exception as e:
+        logger.error(f\"Food analysis error: {str(e)}\")
+        raise HTTPException(status_code=500, detail=f\"Analysis failed: {str(e)}\")
+
+@api_router.get(\"/food/history\")
+async def get_food_history(user: dict = Depends(get_current_user)):
+    \"\"\"Get user's food analysis history\"\"\"
+    history = await db.food_analyses.find(
+        {\"user_id\": user[\"user_id\"]},
+        {\"_id\": 0}
+    ).sort(\"timestamp\", -1).limit(50).to_list(50)
+    return history
+
+@api_router.get(\"/food/today\")
+async def get_today_calories(user: dict = Depends(get_current_user)):
+    \"\"\"Get today's total calories\"\"\"
+    today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    
+    analyses = await db.food_analyses.find({
+        \"user_id\": user[\"user_id\"],
+        \"timestamp\": {\"$gte\": today_start.isoformat()}
+    }, {\"_id\": 0}).to_list(100)
+    
+    total_calories = sum(a.get(\"calories\", 0) for a in analyses)
+    total_protein = sum(a.get(\"protein_g\", 0) for a in analyses)
+    total_carbs = sum(a.get(\"carbs_g\", 0) for a in analyses)
+    total_fat = sum(a.get(\"fat_g\", 0) for a in analyses)
+    
+    return {
+        \"total_calories\": total_calories,
+        \"total_protein_g\": total_protein,
+        \"total_carbs_g\": total_carbs,
+        \"total_fat_g\": total_fat,
+        \"meals_count\": len(analyses)
+    }
+
+# ==================== PROGRESS TRACKING ====================
+
+@api_router.post(\"/progress\")
+async def add_progress(entry: ProgressCreate, user: dict = Depends(get_current_user)):
+    \"\"\"Add weight/height progress entry\"\"\"
+    progress_doc = {
+        \"id\": str(uuid.uuid4()),
+        \"user_id\": user[\"user_id\"],
+        \"weight_kg\": entry.weight_kg,
+        \"height_cm\": entry.height_cm,
+        \"notes\": entry.notes,
+        \"date\": datetime.now(timezone.utc).isoformat()
+    }
+    await db.progress.insert_one(progress_doc)
+    return progress_doc
+
+@api_router.get(\"/progress\")
+async def get_progress(user: dict = Depends(get_current_user)):
+    \"\"\"Get user's progress history\"\"\"
+    progress = await db.progress.find(
+        {\"user_id\": user[\"user_id\"]},
+        {\"_id\": 0}
+    ).sort(\"date\", -1).to_list(100)
+    return progress
+
+@api_router.get(\"/progress/latest\")
+async def get_latest_progress(user: dict = Depends(get_current_user)):
+    \"\"\"Get latest progress entry\"\"\"
+    latest = await db.progress.find_one(
+        {\"user_id\": user[\"user_id\"]},
+        {\"_id\": 0},
+        sort=[(\"date\", -1)]
+    )
+    return latest or {}
+
+# ==================== EXERCISES ====================
+
+EXERCISES_DB = [
+    # Chest
+    {\"id\": \"ex1\", \"name\": \"Flotări\", \"body_part\": \"piept\", \"description\": \"Exercițiu clasic pentru piept și triceps\", \"difficulty\": \"începător\", \"duration_minutes\": 10, \"calories_burned\": 80, \"image_url\": \"https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=400\"},
+    {\"id\": \"ex2\", \"name\": \"Împins la piept cu gantere\", \"body_part\": \"piept\", \"description\": \"Dezvoltă masa musculară a pieptului\", \"difficulty\": \"intermediar\", \"duration_minutes\": 15, \"calories_burned\": 120, \"image_url\": \"https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400\"},
+    # Back
+    {\"id\": \"ex3\", \"name\": \"Tracțiuni\", \"body_part\": \"spate\", \"description\": \"Exercițiu complet pentru spate\", \"difficulty\": \"avansat\", \"duration_minutes\": 15, \"calories_burned\": 100, \"image_url\": \"https://images.unsplash.com/photo-1598971457999-ca4ef48a9a71?w=400\"},
+    {\"id\": \"ex4\", \"name\": \"Ramat cu gantere\", \"body_part\": \"spate\", \"description\": \"Întărește mușchii dorsali\", \"difficulty\": \"intermediar\", \"duration_minutes\": 12, \"calories_burned\": 90, \"image_url\": \"https://images.unsplash.com/photo-1603287681836-b174ce5074c2?w=400\"},
+    # Legs
+    {\"id\": \"ex5\", \"name\": \"Genuflexiuni\", \"body_part\": \"picioare\", \"description\": \"Cel mai bun exercițiu pentru picioare\", \"difficulty\": \"începător\", \"duration_minutes\": 15, \"calories_burned\": 150, \"image_url\": \"https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400\"},
+    {\"id\": \"ex6\", \"name\": \"Fandări\", \"body_part\": \"picioare\", \"description\": \"Tonifică coapsele și fesele\", \"difficulty\": \"intermediar\", \"duration_minutes\": 12, \"calories_burned\": 120, \"image_url\": \"https://images.unsplash.com/photo-1434608519344-49d77a699e1d?w=400\"},
+    # Arms
+    {\"id\": \"ex7\", \"name\": \"Flexii biceps\", \"body_part\": \"brațe\", \"description\": \"Dezvoltă bicepsul\", \"difficulty\": \"începător\", \"duration_minutes\": 10, \"calories_burned\": 60, \"image_url\": \"https://images.unsplash.com/photo-1581009146145-b5ef050c149a?w=400\"},
+    {\"id\": \"ex8\", \"name\": \"Extensii triceps\", \"body_part\": \"brațe\", \"description\": \"Tonifică tricepsul\", \"difficulty\": \"intermediar\", \"duration_minutes\": 10, \"calories_burned\": 55, \"image_url\": \"https://images.unsplash.com/photo-1530822847156-5df684ec5ee1?w=400\"},
+    # Core
+    {\"id\": \"ex9\", \"name\": \"Planșă\", \"body_part\": \"abdomen\", \"description\": \"Întărește întreaga zonă abdominală\", \"difficulty\": \"începător\", \"duration_minutes\": 5, \"calories_burned\": 40, \"image_url\": \"https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=400\"},
+    {\"id\": \"ex10\", \"name\": \"Crunch-uri\", \"body_part\": \"abdomen\", \"description\": \"Sculptează abdomenul superior\", \"difficulty\": \"începător\", \"duration_minutes\": 10, \"calories_burned\": 70, \"image_url\": \"https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400\"},
+    # Shoulders
+    {\"id\": \"ex11\", \"name\": \"Ridicări laterale\", \"body_part\": \"umeri\", \"description\": \"Definește umerii\", \"difficulty\": \"intermediar\", \"duration_minutes\": 10, \"calories_burned\": 65, \"image_url\": \"https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=400\"},
+    {\"id\": \"ex12\", \"name\": \"Împins deasupra capului\", \"body_part\": \"umeri\", \"description\": \"Dezvoltă umerii și tricepsul\", \"difficulty\": \"intermediar\", \"duration_minutes\": 12, \"calories_burned\": 85, \"image_url\": \"https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=400\"},
+    # Cardio
+    {\"id\": \"ex13\", \"name\": \"Alergare\", \"body_part\": \"cardio\", \"description\": \"Ardere maximă de calorii\", \"difficulty\": \"începător\", \"duration_minutes\": 30, \"calories_burned\": 300, \"image_url\": \"https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400\"},
+    {\"id\": \"ex14\", \"name\": \"Jumping Jacks\", \"body_part\": \"cardio\", \"description\": \"Exercițiu cardio complet\", \"difficulty\": \"începător\", \"duration_minutes\": 10, \"calories_burned\": 100, \"image_url\": \"https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?w=400\"},
+]
+
+@api_router.get(\"/exercises\")
+async def get_exercises(body_part: Optional[str] = None):
+    \"\"\"Get all exercises or filter by body part\"\"\"
+    if body_part:
+        return [e for e in EXERCISES_DB if e[\"body_part\"] == body_part]
+    return EXERCISES_DB
+
+@api_router.get(\"/exercises/body-parts\")
+async def get_body_parts():
+    \"\"\"Get all body parts\"\"\"
+    parts = list(set(e[\"body_part\"] for e in EXERCISES_DB))
+    return parts
+
+# ==================== MEAL PLANS ====================
+
+@api_router.post(\"/meal-plans\")
+async def add_meal_plan(meal: MealPlanCreate, user: dict = Depends(get_current_user)):
+    \"\"\"Add meal to plan\"\"\"
+    meal_doc = {
+        \"id\": str(uuid.uuid4()),
+        \"user_id\": user[\"user_id\"],
+        \"day_of_week\": meal.day_of_week,
+        \"meal_type\": meal.meal_type,
+        \"food_name\": meal.food_name,
+        \"calories\": meal.calories,
+        \"protein_g\": meal.protein_g,
+        \"carbs_g\": meal.carbs_g,
+        \"fat_g\": meal.fat_g
+    }
+    await db.meal_plans.insert_one(meal_doc)
+    return meal_doc
+
+@api_router.get(\"/meal-plans\")
+async def get_meal_plans(user: dict = Depends(get_current_user)):
+    \"\"\"Get user's meal plans\"\"\"
+    plans = await db.meal_plans.find({\"user_id\": user[\"user_id\"]}, {\"_id\": 0}).to_list(100)
+    return plans
+
+@api_router.delete(\"/meal-plans/{meal_id}\")
+async def delete_meal_plan(meal_id: str, user: dict = Depends(get_current_user)):
+    \"\"\"Delete meal from plan\"\"\"
+    result = await db.meal_plans.delete_one({\"id\": meal_id, \"user_id\": user[\"user_id\"]})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail=\"Meal not found\")
+    return {\"message\": \"Deleted\"}
+
+# ==================== REMINDERS ====================
+
+@api_router.post(\"/reminders\")
+async def add_reminder(reminder: ReminderCreate, user: dict = Depends(get_current_user)):
+    \"\"\"Add reminder\"\"\"
+    reminder_doc = {
+        \"id\": str(uuid.uuid4()),
+        \"user_id\": user[\"user_id\"],
+        \"type\": reminder.type,
+        \"time\": reminder.time,
+        \"message\": reminder.message,
+        \"enabled\": reminder.enabled
+    }
+    await db.reminders.insert_one(reminder_doc)
+    return reminder_doc
+
+@api_router.get(\"/reminders\")
+async def get_reminders(user: dict = Depends(get_current_user)):
+    \"\"\"Get user's reminders\"\"\"
+    reminders = await db.reminders.find({\"user_id\": user[\"user_id\"]}, {\"_id\": 0}).to_list(50)
+    return reminders
+
+@api_router.put(\"/reminders/{reminder_id}\")
+async def update_reminder(reminder_id: str, reminder: ReminderCreate, user: dict = Depends(get_current_user)):
+    \"\"\"Update reminder\"\"\"
+    result = await db.reminders.update_one(
+        {\"id\": reminder_id, \"user_id\": user[\"user_id\"]},
+        {\"$set\": reminder.model_dump()}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail=\"Reminder not found\")
+    return {\"message\": \"Updated\"}
+
+@api_router.delete(\"/reminders/{reminder_id}\")
+async def delete_reminder(reminder_id: str, user: dict = Depends(get_current_user)):
+    \"\"\"Delete reminder\"\"\"
+    result = await db.reminders.delete_one({\"id\": reminder_id, \"user_id\": user[\"user_id\"]})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail=\"Reminder not found\")
+    return {\"message\": \"Deleted\"}
+
+# ==================== DASHBOARD STATS ====================
+
+@api_router.get(\"/dashboard/stats\")
+async def get_dashboard_stats(user: dict = Depends(get_current_user)):
+    \"\"\"Get dashboard statistics\"\"\"
+    today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    
+    # Today's calories
+    today_analyses = await db.food_analyses.find({
+        \"user_id\": user[\"user_id\"],
+        \"timestamp\": {\"$gte\": today_start.isoformat()}
+    }, {\"_id\": 0}).to_list(100)
+    
+    total_calories = sum(a.get(\"calories\", 0) for a in today_analyses)
+    
+    # Latest weight
+    latest_progress = await db.progress.find_one(
+        {\"user_id\": user[\"user_id\"]},
+        {\"_id\": 0},
+        sort=[(\"date\", -1)]
+    )
+    
+    # Progress count
+    progress_count = await db.progress.count_documents({\"user_id\": user[\"user_id\"]})
+    
+    return {
+        \"today_calories\": total_calories,
+        \"meals_today\": len(today_analyses),
+        \"current_weight\": latest_progress.get(\"weight_kg\") if latest_progress else None,
+        \"progress_entries\": progress_count,
+        \"target_weight\": user.get(\"target_weight_kg\")
+    }
+
+# ==================== MAIN APP SETUP ====================
+
+@api_router.get(\"/\")
+async def root():
+    return {\"message\": \"SlimFit API - Aplicația ta pentru slăbit!\"}
+
+app.include_router(api_router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origins=[\"*\"],
+    allow_methods=[\"*\"],
+    allow_headers=[\"*\"],
+)
+
+@app.on_event(\"shutdown\")
+async def shutdown_db_client():
+    client.close()
+"
+Observation: Overwrite successful: /app/backend/server.py
+Acum creez frontend-ul. Voi începe cu stilurile și componentele principale:
+Action: file_editor create /app/frontend/src/index.css --file-text "@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #FBFBF9;
+    color: #1A2E05;
+}
+
+.font-heading {
+    font-family: 'Manrope', sans-serif;
+}
+
+@layer base {
+    :root {
+        --background: 60 20% 98%;
+        --foreground: 90 60% 10%;
+        --card: 0 0% 100%;
+        --card-foreground: 90 60% 10%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 90 60% 10%;
+        --primary: 110 25% 33%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 24 95% 53%;
+        --secondary-foreground: 0 0% 100%;
+        --muted: 60 10% 95%;
+        --muted-foreground: 90 15% 40%;
+        --accent: 24 95% 53%;
+        --accent-foreground: 0 0% 100%;
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 60 10% 90%;
+        --input: 60 10% 90%;
+        --ring: 110 25% 33%;
+        --radius: 1rem;
+        --chart-1: 24 95% 53%;
+        --chart-2: 110 25% 33%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+    }
+    .dark {
+        --background: 0 0% 5%;
+        --foreground: 0 0% 98%;
+        --card: 0 0% 8%;
+        --card-foreground: 0 0% 98%;
+        --popover: 0 0% 8%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 110 25% 45%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 24 95% 53%;
+        --secondary-foreground: 0 0% 100%;
+        --muted: 0 0% 15%;
+        --muted-foreground: 0 0% 65%;
+        --accent: 24 95% 53%;
+        --accent-foreground: 0 0% 100%;
+        --destructive: 0 62% 30%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 0 0% 15%;
+        --input: 0 0% 15%;
+        --ring: 110 25% 45%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4A6741;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3a5234;
+}
+
+/* Glass morphism */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-dark {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4); }
+    50% { box-shadow: 0 0 20px 10px rgba(249, 115, 22, 0.1); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Stagger children */
+.stagger-children > * {
+    opacity: 0;
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+
+/* Button styles */
+.btn-primary {
+    @apply bg-[#F97316] text-white rounded-full px-8 py-4 font-bold;
+    box-shadow: 0 4px 14px 0 rgba(249, 115, 22, 0.39);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px 0 rgba(249, 115, 22, 0.5);
+}
+
+.btn-secondary {
+    @apply bg-white text-[#4A6741] border-2 border-[#4A6741]/20 rounded-full px-8 py-4 font-bold;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-secondary:hover {
+    @apply bg-[#4A6741]/5;
+    transform: scale(1.02);
+}
+
+/* Card styles */
+.card-elevated {
+    @apply bg-white rounded-3xl p-6;
+    box-shadow: 0 8px 30px rgb(0 0 0 / 0.04);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card-elevated:hover {
+    box-shadow: 0 12px 40px rgb(0 0 0 / 0.08);
+    transform: translateY(-2px);
+}
+
+/* Mobile navigation */
+.mobile-nav {
+    @apply fixed bottom-6 left-4 right-4 bg-black/90 text-white backdrop-blur-lg rounded-full p-4 flex justify-around z-50;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-nav-item {
+    @apply flex flex-col items-center gap-1 text-xs transition-colors duration-200;
+}
+
+.mobile-nav-item.active {
+    @apply text-[#F97316];
+}
+
+.mobile-nav-item:not(.active) {
+    @apply text-white/70 hover:text-white;
+}
+
+/* Gradient backgrounds */
+.gradient-hero {
+    background: linear-gradient(135deg, #4A6741 0%, #2E4226 100%);
+}
+
+.gradient-accent {
+    background: linear-gradient(90deg, #F97316 0%, #FB923C 100%);
+}
+
+/* Input styles */
+.input-styled {
+    @apply bg-white/50 border border-[#4A6741]/10 rounded-xl h-12 px-4 w-full;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-styled:focus {
+    @apply border-[#4A6741] outline-none;
+    box-shadow: 0 0 0 3px rgba(74, 103, 65, 0.1);
+}
+
+/* Progress ring */
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Debug wrapper fix */
+@layer base {
+    [data-debug-wrapper=\"true\"] {
+        display: contents !important;
+    }
+}
+"
+Observation: Overwrite successful: /app/frontend/src/index.css
+
+Action: file_editor str_replace /app/frontend/tailwind.config.js --old-str "/** @type {import('tailwindcss').Config} */
+module.exports = {
+    darkMode: [\"class\"],
+    content: [
+    \"./src/**/*.{js,jsx,ts,tsx}\",
+    \"./public/index.html\"
+  ],
+  theme: {
+        extend: {
+                borderRadius: {
+                        lg: 'var(--radius)',
+                        md: 'calc(var(--radius) - 2px)',
+                        sm: 'calc(var(--radius) - 4px)'
+                },
+                colors: {
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        card: {
+                                DEFAULT: 'hsl(var(--card))',
+                                foreground: 'hsl(var(--card-foreground))'
+                        },
+                        popover: {
+                                DEFAULT: 'hsl(var(--popover))',
+                                foreground: 'hsl(var(--popover-foreground))'
+                        },
+                        primary: {
+                                DEFAULT: 'hsl(var(--primary))',
+                                foreground: 'hsl(var(--primary-foreground))'
+                        },
+                        secondary: {
+                                DEFAULT: 'hsl(var(--secondary))',
+                                foreground: 'hsl(var(--secondary-foreground))'
+                        },
+                        muted: {
+                                DEFAULT: 'hsl(var(--muted))',
+                                foreground: 'hsl(var(--muted-foreground))'
+                        },
+                        accent: {
+                                DEFAULT: 'hsl(var(--accent))',
+                                foreground: 'hsl(var(--accent-foreground))'
+                        },
+                        destructive: {
+                                DEFAULT: 'hsl(var(--destructive))',
+                                foreground: 'hsl(var(--destructive-foreground))'
+                        },
+                        border: 'hsl(var(--border))',
+                        input: 'hsl(var(--input))',
+                        ring: 'hsl(var(--ring))',
+                        chart: {
+                                '1': 'hsl(var(--chart-1))',
+                                '2': 'hsl(var(--chart-2))',
+                                '3': 'hsl(var(--chart-3))',
+                                '4': 'hsl(var(--chart-4))',
+                                '5': 'hsl(var(--chart-5))'
+                        }
+                }," --new-str "/** @type {import('tailwindcss').Config} */
+module.exports = {
+    darkMode: [\"class\"],
+    content: [
+    \"./src/**/*.{js,jsx,ts,tsx}\",
+    \"./public/index.html\"
+  ],
+  theme: {
+        extend: {
+                fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Manrope', 'sans-serif'],
+                },
+                borderRadius: {
+                        lg: 'var(--radius)',
+                        md: 'calc(var(--radius) - 2px)',
+                        sm: 'calc(var(--radius) - 4px)'
+                },
+                colors: {
+                        sage: {
+                                DEFAULT: '#4A6741',
+                                light: '#5a7a50',
+                                dark: '#3a5234',
+                        },
+                        orange: {
+                                DEFAULT: '#F97316',
+                                light: '#FB923C',
+                        },
+                        bone: '#FBFBF9',
+                        olive: {
+                                DEFAULT: '#1A2E05',
+                                muted: '#5C6B45',
+                        },
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        card: {
+                                DEFAULT: 'hsl(var(--card))',
+                                foreground: 'hsl(var(--card-foreground))'
+                        },
+                        popover: {
+                                DEFAULT: 'hsl(var(--popover))',
+                                foreground: 'hsl(var(--popover-foreground))'
+                        },
+                        primary: {
+                                DEFAULT: 'hsl(var(--primary))',
+                                foreground: 'hsl(var(--primary-foreground))'
+                        },
+                        secondary: {
+                                DEFAULT: 'hsl(var(--secondary))',
+                                foreground: 'hsl(var(--secondary-foreground))'
+                        },
+                        muted: {
+                                DEFAULT: 'hsl(var(--muted))',
+                                foreground: 'hsl(var(--muted-foreground))'
+                        },
+                        accent: {
+                                DEFAULT: 'hsl(var(--accent))',
+                                foreground: 'hsl(var(--accent-foreground))'
+                        },
+                        destructive: {
+                                DEFAULT: 'hsl(var(--destructive))',
+                                foreground: 'hsl(var(--destructive-foreground))'
+                        },
+                        border: 'hsl(var(--border))',
+                        input: 'hsl(var(--input))',
+                        ring: 'hsl(var(--ring))',
+                        chart: {
+                                '1': 'hsl(var(--chart-1))',
+                                '2': 'hsl(var(--chart-2))',
+                                '3': 'hsl(var(--chart-3))',
+                                '4': 'hsl(var(--chart-4))',
+                                '5': 'hsl(var(--chart-5))'
+                        }
+                },"
+Observation: String replacement failed: No replacement was performed, `old_str` did not appear verbatim in /app/frontend/tailwind.config.js.
+Acum creez App.js cu toate paginile și rutele:
+Action: file_editor create /app/frontend/src/App.js --file-text "import { useState, useEffect, useRef, useCallback } from \"react\";
+import \"@/App.css\";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from \"react-router-dom\";
+import axios from \"axios\";
+import { Toaster, toast } from \"sonner\";
+import { 
+  Camera, Home, Dumbbell, TrendingUp, UtensilsCrossed, 
+  User, LogOut, Plus, X, ChevronRight, Scale, Ruler,
+  Clock, Bell, Target, Flame, Apple, Beef
+} from \"lucide-react\";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from \"recharts\";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
+
+// Configure axios
+axios.defaults.withCredentials = true;
+
+// ==================== AUTH CONTEXT ====================
+const AuthContext = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const checkAuth = useCallback(async () => {
+    try {
+      const response = await axios.get(`${API}/auth/me`);
+      setUser(response.data);
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  return children({ user, setUser, loading, checkAuth });
+};
+
+// ==================== AUTH CALLBACK ====================
+const AuthCallback = ({ setUser }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const hasProcessed = useRef(false);
+
+  useEffect(() => {
+    if (hasProcessed.current) return;
+    hasProcessed.current = true;
+
+    const hash = location.hash;
+    const sessionIdMatch = hash.match(/session_id=([^&]+)/);
+    
+    if (sessionIdMatch) {
+      const sessionId = sessionIdMatch[1];
+      
+      axios.post(`${API}/auth/session`, { session_id: sessionId })
+        .then(response => {
+          setUser(response.data.user);
+          toast.success(\"Autentificare reușită!\");
+          navigate(\"/dashboard\", { replace: true, state: { user: response.data.user } });
+        })
+        .catch(error => {
+          console.error(\"Auth error:\", error);
+          toast.error(\"Eroare la autentificare\");
+          navigate(\"/login\", { replace: true });
+        });
+    }
+  }, [location, navigate, setUser]);
+
+  return (
+    <div className=\"min-h-screen flex items-center justify-center bg-bone\">
+      <div className=\"text-center\">
+        <div className=\"w-12 h-12 border-4 border-sage border-t-transparent rounded-full animate-spin mx-auto mb-4\" />
+        <p className=\"text-olive-muted\">Se procesează autentificarea...</p>
+      </div>
+    </div>
+  );
+};
+
+// ==================== LOGIN PAGE ====================
+const LoginPage = ({ setUser }) => {
+  const [isRegister, setIsRegister] = useState(false);
+  const [email, setEmail] = useState(\"\");
+  const [password, setPassword] = useState(\"\");
+  const [name, setName] = useState(\"\");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleGoogleLogin = () => {
+    // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
+    const redirectUrl = window.location.origin + '/dashboard';
+    window.location.href = `https://auth.emergentagent.com/?redirect=${encodeURIComponent(redirectUrl)}`;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      if (isRegister) {
+        const response = await axios.post(`${API}/auth/register`, { email, password, name });
+        localStorage.setItem(\"token\", response.data.token);
+        setUser(response.data.user);
+        toast.success(\"Cont creat cu succes!\");
+        navigate(\"/dashboard\");
+      } else {
+        const response = await axios.post(`${API}/auth/login`, { email, password });
+        localStorage.setItem(\"token\", response.data.token);
+        setUser(response.data.user);
+        toast.success(\"Bine ai revenit!\");
+        navigate(\"/dashboard\");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.detail || \"Eroare la autentificare\");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className=\"min-h-screen bg-bone flex\">
+      {/* Left side - Image */}
+      <div className=\"hidden lg:flex lg:w-1/2 gradient-hero relative overflow-hidden\">
+        <div className=\"absolute inset-0 bg-black/20\" />
+        <img 
+          src=\"https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200\" 
+          alt=\"Healthy food\" 
+          className=\"w-full h-full object-cover mix-blend-overlay\"
+        />
+        <div className=\"absolute inset-0 flex flex-col justify-end p-12 text-white\">
+          <h1 className=\"font-heading text-5xl font-bold mb-4 animate-fade-in\">SlimFit</h1>
+          <p className=\"text-xl text-white/90 max-w-md animate-fade-in\" style={{animationDelay: '0.2s'}}>
+            Transformă-ți viața cu inteligența artificială. Analizează mâncarea, urmărește-ți progresul și atinge-ți obiectivele.
+          </p>
+        </div>
+      </div>
+
+      {/* Right side - Form */}
+      <div className=\"w-full lg:w-1/2 flex items-center justify-center p-8\">
+        <div className=\"w-full max-w-md animate-slide-up\">
+          <div className=\"lg:hidden text-center mb-8\">
+            <h1 className=\"font-heading text-4xl font-bold text-sage\">SlimFit</h1>
+            <p className=\"text-olive-muted mt-2\">Asistentul tău pentru slăbit</p>
+          </div>
+
+          <div className=\"card-elevated\">
+            <h2 className=\"font-heading text-2xl font-bold mb-6 text-olive\">
+              {isRegister ? \"Creează cont\" : \"Bine ai revenit\"}
+            </h2>
+
+            <form onSubmit={handleSubmit} className=\"space-y-4\">
+              {isRegister && (
+                <div>
+                  <label className=\"block text-sm font-medium text-olive-muted mb-2\">Nume</label>
+                  <input
+                    type=\"text\"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className=\"input-styled\"
+                    placeholder=\"Numele tău\"
+                    required
+                    data-testid=\"register-name-input\"
+                  />
+                </div>
+              )}
+              
+              <div>
+                <label className=\"block text-sm font-medium text-olive-muted mb-2\">Email</label>
+                <input
+                  type=\"email\"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className=\"input-styled\"
+                  placeholder=\"email@exemplu.ro\"
+                  required
+                  data-testid=\"email-input\"
+                />
+              </div>
+
+              <div>
+                <label className=\"block text-sm font-medium text-olive-muted mb-2\">Parolă</label>
+                <input
+                  type=\"password\"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className=\"input-styled\"
+                  placeholder=\"••••••••\"
+                  required
+                  data-testid=\"password-input\"
+                />
+              </div>
+
+              <button 
+                type=\"submit\" 
+                className=\"btn-primary w-full\"
+                disabled={loading}
+                data-testid=\"auth-submit-btn\"
+              >
+                {loading ? \"Se procesează...\" : (isRegister ? \"Creează cont\" : \"Conectează-te\")}
+              </button>
+            </form>
+
+            <div className=\"relative my-6\">
+              <div className=\"absolute inset-0 flex items-center\">
+                <div className=\"w-full border-t border-gray-200\" />
+              </div>
+              <div className=\"relative flex justify-center text-sm\">
+                <span className=\"px-4 bg-white text-olive-muted\">sau</span>
+              </div>
+            </div>
+
+            <button
+              onClick={handleGoogleLogin}
+              className=\"w-full flex items-center justify-center gap-3 btn-secondary\"
+              data-testid=\"google-login-btn\"
+            >
+              <svg className=\"w-5 h-5\" viewBox=\"0 0 24 24\">
+                <path fill=\"#4285F4\" d=\"M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z\"/>
+                <path fill=\"#34A853\" d=\"M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z\"/>
+                <path fill=\"#FBBC05\" d=\"M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z\"/>
+                <path fill=\"#EA4335\" d=\"M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z\"/>
+              </svg>
+              Continuă cu Google
+            </button>
+
+            <p className=\"text-center text-sm text-olive-muted mt-6\">
+              {isRegister ? \"Ai deja cont?\" : \"Nu ai cont?\"}{\" \"}
+              <button 
+                onClick={() => setIsRegister(!isRegister)} 
+                className=\"text-sage font-semibold hover:underline\"
+                data-testid=\"toggle-auth-mode\"
+              >
+                {isRegister ? \"Conectează-te\" : \"Creează cont\"}
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==================== MOBILE NAV ====================
+const MobileNav = ({ activeTab, setActiveTab }) => {
+  const navigate = useNavigate();
+  
+  const tabs = [
+    { id: \"dashboard\", icon: Home, label: \"Acasă\" },
+    { id: \"scanner\", icon: Camera, label: \"Scanează\" },
+    { id: \"exercises\", icon: Dumbbell, label: \"Exerciții\" },
+    { id: \"progress\", icon: TrendingUp, label: \"Progres\" },
+    { id: \"profile\", icon: User, label: \"Profil\" },
+  ];
+
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+    navigate(`/${tabId}`);
+  };
+
+  return (
+    <nav className=\"mobile-nav\" data-testid=\"mobile-nav\">
+      {tabs.map((tab) => (
+        <button
+          key={tab.id}
+          onClick={() => handleTabClick(tab.id)}
+          className={`mobile-nav-item ${activeTab === tab.id ? \"active\" : \"\"}`}
+          data-testid={`nav-${tab.id}`}
+        >
+          <tab.icon className=\"w-6 h-6\" strokeWidth={1.5} />
+          <span>{tab.label}</span>
+        </button>
+      ))}
+    </nav>
+  );
+};
+
+// ==================== DASHBOARD ====================
+const Dashboard = ({ user }) => {
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await axios.get(`${API}/dashboard/stats`);
+        setStats(response.data);
+      } catch (error) {
+        console.error(\"Error fetching stats:\", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStats();
+  }, []);
+
+  const calorieGoal = 2000;
+  const caloriePercent = stats ? Math.min((stats.today_calories / calorieGoal) * 100, 100) : 0;
+
+  if (loading) {
+    return (
+      <div className=\"flex items-center justify-center h-64\">
+        <div className=\"w-10 h-10 border-4 border-sage border-t-transparent rounded-full animate-spin\" />
+      </div>
+    );
+  }
+
+  return (
+    <div className=\"p-6 pb-32 stagger-children\" data-testid=\"dashboard\">
+      {/* Header */}
+      <div className=\"mb-8\">
+        <p className=\"text-olive-muted mb-1\">Salut,</p>
+        <h1 className=\"font-heading text-3xl font-bold text-olive\">{user?.name || \"Utilizator\"}</h1>
+      </div>
+
+      {/* Bento Grid */}
+      <div className=\"grid grid-cols-2 md:grid-cols-4 gap-4\">
+        {/* Calories - Large card */}
+        <div 
+          className=\"col-span-2 row-span-2 card-elevated gradient-hero text-white cursor-pointer\"
+          onClick={() => navigate(\"/scanner\")}
+          data-testid=\"calories-card\"
+        >
+          <div className=\"flex justify-between items-start mb-4\">
+            <div>
+              <p className=\"text-white/70 text-sm\">Calorii azi</p>
+              <h2 className=\"font-heading text-4xl font-bold\">{stats?.today_calories || 0}</h2>
+              <p className=\"text-white/70\">din {calorieGoal} kcal</p>
+            </div>
+            <div className=\"relative w-24 h-24\">
+              <svg className=\"progress-ring w-24 h-24\">
+                <circle
+                  cx=\"48\"
+                  cy=\"48\"
+                  r=\"40\"
+                  fill=\"none\"
+                  stroke=\"rgba(255,255,255,0.2)\"
+                  strokeWidth=\"8\"
+                />
+                <circle
+                  cx=\"48\"
+                  cy=\"48\"
+                  r=\"40\"
+                  fill=\"none\"
+                  stroke=\"#F97316\"
+                  strokeWidth=\"8\"
+                  strokeDasharray={`${caloriePercent * 2.51} 251`}
+                  strokeLinecap=\"round\"
+                />
+              </svg>
+              <div className=\"absolute inset-0 flex items-center justify-center\">
+                <span className=\"font-bold text-lg\">{Math.round(caloriePercent)}%</span>
+              </div>
+            </div>
+          </div>
+          <button className=\"flex items-center gap-2 bg-white/20 rounded-full px-4 py-2 text-sm hover:bg-white/30 transition-colors\">
+            <Camera className=\"w-4 h-4\" />
+            Scanează mâncare
+          </button>
+        </div>
+
+        {/* Weight */}
+        <div 
+          className=\"card-elevated cursor-pointer\"
+          onClick={() => navigate(\"/progress\")}
+          data-testid=\"weight-card\"
+        >
+          <Scale className=\"w-8 h-8 text-sage mb-2\" strokeWidth={1.5} />
+          <p className=\"text-olive-muted text-sm\">Greutate</p>
+          <p className=\"font-heading text-2xl font-bold text-olive\">
+            {stats?.current_weight ? `${stats.current_weight} kg` : \"-- kg\"}
+          </p>
+        </div>
+
+        {/* Target */}
+        <div className=\"card-elevated\" data-testid=\"target-card\">
+          <Target className=\"w-8 h-8 text-orange mb-2\" strokeWidth={1.5} />
+          <p className=\"text-olive-muted text-sm\">Obiectiv</p>
+          <p className=\"font-heading text-2xl font-bold text-olive\">
+            {stats?.target_weight ? `${stats.target_weight} kg` : \"-- kg\"}
+          </p>
+        </div>
+
+        {/* Meals */}
+        <div 
+          className=\"card-elevated cursor-pointer\"
+          onClick={() => navigate(\"/scanner\")}
+          data-testid=\"meals-card\"
+        >
+          <UtensilsCrossed className=\"w-8 h-8 text-sage mb-2\" strokeWidth={1.5} />
+          <p className=\"text-olive-muted text-sm\">Mese azi</p>
+          <p className=\"font-heading text-2xl font-bold text-olive\">{stats?.meals_today || 0}</p>
+        </div>
+
+        {/* Exercises */}
+        <div 
+          className=\"card-elevated cursor-pointer\"
+          onClick={() => navigate(\"/exercises\")}
+          data-testid=\"exercises-card\"
+        >
+          <Dumbbell className=\"w-8 h-8 text-orange mb-2\" strokeWidth={1.5} />
+          <p className=\"text-olive-muted text-sm\">Exerciții</p>
+          <p className=\"font-heading text-2xl font-bold text-olive\">Vezi toate</p>
+          <ChevronRight className=\"w-5 h-5 text-olive-muted mt-1\" />
+        </div>
+
+        {/* Quick Actions */}
+        <div className=\"col-span-2 card-elevated\">
+          <h3 className=\"font-heading font-bold text-olive mb-4\">Acțiuni rapide</h3>
+          <div className=\"flex gap-3\">
+            <button 
+              onClick={() => navigate(\"/scanner\")}
+              className=\"flex-1 btn-primary text-sm py-3\"
+              data-testid=\"quick-scan-btn\"
+            >
+              <Camera className=\"w-4 h-4 inline mr-2\" />
+              Scanează
+            </button>
+            <button 
+              onClick={() => navigate(\"/progress\")}
+              className=\"flex-1 btn-secondary text-sm py-3\"
+              data-testid=\"quick-weight-btn\"
+            >
+              <Plus className=\"w-4 h-4 inline mr-2\" />
+              Greutate
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==================== FOOD SCANNER ====================
+const FoodScanner = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [result, setResult] = useState(null);
+  const [history, setHistory] = useState([]);
+  const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const response = await axios.get(`${API}/food/history`);
+        setHistory(response.data.slice(0, 5));
+      } catch (error) {
+        console.error(\"Error fetching history:\", error);
+      }
+    };
+    fetchHistory();
+  }, [result]);
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+      setResult(null);
+    }
+  };
+
+  const analyzeFood = async () => {
+    if (!selectedFile) return;
+    
+    setAnalyzing(true);
+    const formData = new FormData();
+    formData.append(\"file\", selectedFile);
+
+    try {
+      const response = await axios.post(`${API}/food/analyze`, formData, {
+        headers: { \"Content-Type\": \"multipart/form-data\" }
+      });
+      setResult(response.data);
+      toast.success(\"Analiză completă!\");
+    } catch (error) {
+      toast.error(error.response?.data?.detail || \"Eroare la analiză\");
+    } finally {
+      setAnalyzing(false);
+    }
+  };
+
+  const resetScanner = () => {
+    setSelectedFile(null);
+    setPreview(null);
+    setResult(null);
+  };
+
+  return (
+    <div className=\"p-6 pb-32\" data-testid=\"food-scanner\">
+      <h1 className=\"font-heading text-3xl font-bold text-olive mb-6\">Scanner Mâncare</h1>
+
+      {/* Upload Area */}
+      {!preview ? (
+        <div 
+          className=\"card-elevated border-2 border-dashed border-sage/30 text-center cursor-pointer hover:border-sage transition-colors\"
+          onClick={() => fileInputRef.current?.click()}
+          data-testid=\"upload-area\"
+        >
+          <input
+            ref={fileInputRef}
+            type=\"file\"
+            accept=\"image/*\"
+            onChange={handleFileSelect}
+            className=\"hidden\"
+            data-testid=\"file-input\"
+          />
+          <Camera className=\"w-16 h-16 text-sage mx-auto mb-4\" strokeWidth={1} />
+          <p className=\"font-heading font-bold text-olive mb-2\">Încarcă o poză cu mâncarea</p>
+          <p className=\"text-olive-muted text-sm\">Sau fă o poză cu camera</p>
+        </div>
+      ) : (
+        <div className=\"animate-fade-in\">
+          {/* Preview */}
+          <div className=\"card-elevated mb-4 relative\">
+            <button 
+              onClick={resetScanner}
+              className=\"absolute top-2 right-2 p-2 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors\"
+              data-testid=\"reset-scanner-btn\"
+            >
+              <X className=\"w-5 h-5\" />
+            </button>
+            <img 
+              src={preview} 
+              alt=\"Food preview\" 
+              className=\"w-full h-64 object-cover rounded-2xl\"
+            />
+          </div>
+
+          {/* Analyze Button */}
+          {!result && (
+            <button
+              onClick={analyzeFood}
+              disabled={analyzing}
+              className=\"btn-primary w-full mb-4\"
+              data-testid=\"analyze-btn\"
+            >
+              {analyzing ? (
+                <>
+                  <div className=\"w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin inline mr-2\" />
+                  Se analizează...
+                </>
+              ) : (
+                \"Analizează cu AI\"
+              )}
+            </button>
+          )}
+
+          {/* Results */}
+          {result && (
+            <div className=\"space-y-4 animate-slide-up\" data-testid=\"analysis-result\">
+              <div className=\"card-elevated\">
+                <h2 className=\"font-heading text-2xl font-bold text-olive mb-1\">{result.food_name}</h2>
+                <div className=\"flex items-center gap-2 mb-4\">
+                  <Flame className=\"w-5 h-5 text-orange\" />
+                  <span className=\"text-2xl font-bold text-orange\">{result.calories}</span>
+                  <span className=\"text-olive-muted\">kcal</span>
+                </div>
+
+                {/* Macros */}
+                <div className=\"grid grid-cols-4 gap-2 mb-4\">
+                  <div className=\"bg-sage/10 rounded-xl p-3 text-center\">
+                    <Beef className=\"w-5 h-5 text-sage mx-auto mb-1\" />
+                    <p className=\"font-bold text-olive\">{result.protein_g}g</p>
+                    <p className=\"text-xs text-olive-muted\">Proteine</p>
+                  </div>
+                  <div className=\"bg-orange/10 rounded-xl p-3 text-center\">
+                    <Apple className=\"w-5 h-5 text-orange mx-auto mb-1\" />
+                    <p className=\"font-bold text-olive\">{result.carbs_g}g</p>
+                    <p className=\"text-xs text-olive-muted\">Carbohidrați</p>
+                  </div>
+                  <div className=\"bg-yellow-100 rounded-xl p-3 text-center\">
+                    <div className=\"w-5 h-5 bg-yellow-500 rounded-full mx-auto mb-1\" />
+                    <p className=\"font-bold text-olive\">{result.fat_g}g</p>
+                    <p className=\"text-xs text-olive-muted\">Grăsimi</p>
+                  </div>
+                  <div className=\"bg-green-100 rounded-xl p-3 text-center\">
+                    <div className=\"w-5 h-5 bg-green-500 rounded-full mx-auto mb-1\" />
+                    <p className=\"font-bold text-olive\">{result.fiber_g}g</p>
+                    <p className=\"text-xs text-olive-muted\">Fibre</p>
+                  </div>
+                </div>
+
+                {/* Tips */}
+                <div className=\"bg-sage/5 rounded-xl p-4 mb-4\">
+                  <p className=\"text-sm text-olive\">{result.tips}</p>
+                </div>
+
+                {/* Alternatives */}
+                <div>
+                  <h3 className=\"font-heading font-bold text-olive mb-2\">Alternative mai sănătoase:</h3>
+                  <div className=\"flex flex-wrap gap-2\">
+                    {result.healthier_alternatives?.map((alt, i) => (
+                      <span key={i} className=\"bg-sage/10 text-sage px-3 py-1 rounded-full text-sm\">
+                        {alt}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <button onClick={resetScanner} className=\"btn-secondary w-full\" data-testid=\"scan-another-btn\">
+                Scanează altă mâncare
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* History */}
+      {history.length > 0 && !preview && (
+        <div className=\"mt-8\">
+          <h2 className=\"font-heading font-bold text-olive mb-4\">Istoric recent</h2>
+          <div className=\"space-y-3\">
+            {history.map((item) => (
+              <div key={item.id} className=\"card-elevated flex items-center justify-between\">
+                <div>
+                  <p className=\"font-semibold text-olive\">{item.food_name}</p>
+                  <p className=\"text-sm text-olive-muted\">{item.calories} kcal</p>
+                </div>
+                <div className=\"text-right text-sm text-olive-muted\">
+                  {new Date(item.timestamp).toLocaleDateString('ro-RO')}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ==================== EXERCISES ====================
+const Exercises = () => {
+  const [exercises, setExercises] = useState([]);
+  const [bodyParts, setBodyParts] = useState([]);
+  const [selectedPart, setSelectedPart] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [exRes, partsRes] = await Promise.all([
+          axios.get(`${API}/exercises`),
+          axios.get(`${API}/exercises/body-parts`)
+        ]);
+        setExercises(exRes.data);
+        setBodyParts(partsRes.data);
+      } catch (error) {
+        console.error(\"Error:\", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const filteredExercises = selectedPart 
+    ? exercises.filter(e => e.body_part === selectedPart)
+    : exercises;
+
+  const partLabels = {
+    piept: \"Piept\",
+    spate: \"Spate\",
+    picioare: \"Picioare\",
+    brațe: \"Brațe\",
+    abdomen: \"Abdomen\",
+    umeri: \"Umeri\",
+    cardio: \"Cardio\"
+  };
+
+  if (loading) {
+    return (
+      <div className=\"flex items-center justify-center h-64\">
+        <div className=\"w-10 h-10 border-4 border-sage border-t-transparent rounded-full animate-spin\" />
+      </div>
+    );
+  }
+
+  return (
+    <div className=\"p-6 pb-32\" data-testid=\"exercises-page\">
+      <h1 className=\"font-heading text-3xl font-bold text-olive mb-6\">Exerciții</h1>
+
+      {/* Body Parts Filter */}
+      <div className=\"flex gap-2 overflow-x-auto hide-scrollbar mb-6 pb-2\">
+        <button
+          onClick={() => setSelectedPart(null)}
+          className={`px-4 py-2 rounded-full whitespace-nowrap transition-colors ${
+            !selectedPart ? \"bg-sage text-white\" : \"bg-sage/10 text-sage\"
+          }`}
+          data-testid=\"filter-all\"
+        >
+          Toate
+        </button>
+        {bodyParts.map((part) => (
+          <button
+            key={part}
+            onClick={() => setSelectedPart(part)}
+            className={`px-4 py-2 rounded-full whitespace-nowrap transition-colors ${
+              selectedPart === part ? \"bg-sage text-white\" : \"bg-sage/10 text-sage\"
+            }`}
+            data-testid={`filter-${part}`}
+          >
+            {partLabels[part] || part}
+          </button>
+        ))}
+      </div>
+
+      {/* Exercise Cards */}
+      <div className=\"grid gap-4 md:grid-cols-2\">
+        {filteredExercises.map((exercise) => (
+          <div key={exercise.id} className=\"card-elevated group\" data-testid={`exercise-${exercise.id}`}>
+            <div className=\"flex gap-4\">
+              <div className=\"w-20 h-20 rounded-xl overflow-hidden flex-shrink-0\">
+                <img 
+                  src={exercise.image_url || \"https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=200\"} 
+                  alt={exercise.name}
+                  className=\"w-full h-full object-cover group-hover:scale-110 transition-transform duration-300\"
+                />
+              </div>
+              <div className=\"flex-1\">
+                <h3 className=\"font-heading font-bold text-olive\">{exercise.name}</h3>
+                <p className=\"text-sm text-olive-muted mb-2\">{exercise.description}</p>
+                <div className=\"flex gap-3 text-xs\">
+                  <span className=\"bg-sage/10 text-sage px-2 py-1 rounded-full\">
+                    <Clock className=\"w-3 h-3 inline mr-1\" />
+                    {exercise.duration_minutes} min
+                  </span>
+                  <span className=\"bg-orange/10 text-orange px-2 py-1 rounded-full\">
+                    <Flame className=\"w-3 h-3 inline mr-1\" />
+                    {exercise.calories_burned} kcal
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ==================== PROGRESS ====================
+const Progress = () => {
+  const [progress, setProgress] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [weight, setWeight] = useState(\"\");
+  const [height, setHeight] = useState(\"\");
+  const [notes, setNotes] = useState(\"\");
+  const [loading, setLoading] = useState(true);
+
+  const fetchProgress = async () => {
+    try {
+      const response = await axios.get(`${API}/progress`);
+      setProgress(response.data);
+    } catch (error) {
+      console.error(\"Error:\", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProgress();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${API}/progress`, {
+        weight_kg: parseFloat(weight),
+        height_cm: height ? parseFloat(height) : null,
+        notes: notes || null
+      });
+      toast.success(\"Progres adăugat!\");
+      setShowForm(false);
+      setWeight(\"\");
+      setHeight(\"\");
+      setNotes(\"\");
+      fetchProgress();
+    } catch (error) {
+      toast.error(\"Eroare la salvare\");
+    }
+  };
+
+  const chartData = [...progress]
+    .reverse()
+    .slice(-10)
+    .map(p => ({
+      date: new Date(p.date).toLocaleDateString('ro-RO', { day: '2-digit', month: 'short' }),
+      weight: p.weight_kg
+    }));
+
+  if (loading) {
+    return (
+      <div className=\"flex items-center justify-center h-64\">
+        <div className=\"w-10 h-10 border-4 border-sage border-t-transparent rounded-full animate-spin\" />
+      </div>
+    );
+  }
+
+  return (
+    <div className=\"p-6 pb-32\" data-testid=\"progress-page\">
+      <div className=\"flex items-center justify-between mb-6\">
+        <h1 className=\"font-heading text-3xl font-bold text-olive\">Progres</h1>
+        <button
+          onClick={() => setShowForm(true)}
+          className=\"btn-primary py-2 px-4 text-sm\"
+          data-testid=\"add-progress-btn\"
+        >
+          <Plus className=\"w-4 h-4 inline mr-1\" />
+          Adaugă
+        </button>
+      </div>
+
+      {/* Chart */}
+      {chartData.length > 1 && (
+        <div className=\"card-elevated mb-6\" data-testid=\"progress-chart\">
+          <h2 className=\"font-heading font-bold text-olive mb-4\">Evoluția greutății</h2>
+          <div className=\"h-48\">
+            <ResponsiveContainer width=\"100%\" height=\"100%\">
+              <AreaChart data={chartData}>
+                <defs>
+                  <linearGradient id=\"colorWeight\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">
+                    <stop offset=\"5%\" stopColor=\"#4A6741\" stopOpacity={0.3}/>
+                    <stop offset=\"95%\" stopColor=\"#4A6741\" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey=\"date\" axisLine={false} tickLine={false} tick={{ fontSize: 12 }} />
+                <YAxis domain={['dataMin - 2', 'dataMax + 2']} axisLine={false} tickLine={false} tick={{ fontSize: 12 }} />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
+                  formatter={(value) => [`${value} kg`, 'Greutate']}
+                />
+                <Area 
+                  type=\"monotone\" 
+                  dataKey=\"weight\" 
+                  stroke=\"#4A6741\" 
+                  strokeWidth={2}
+                  fill=\"url(#colorWeight)\" 
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
+      {/* Latest Stats */}
+      {progress.length > 0 && (
+        <div className=\"grid grid-cols-2 gap-4 mb-6\">
+          <div className=\"card-elevated\">
+            <Scale className=\"w-8 h-8 text-sage mb-2\" />
+            <p className=\"text-olive-muted text-sm\">Greutate curentă</p>
+            <p className=\"font-heading text-2xl font-bold text-olive\">{progress[0].weight_kg} kg</p>
+          </div>
+          {progress[0].height_cm && (
+            <div className=\"card-elevated\">
+              <Ruler className=\"w-8 h-8 text-sage mb-2\" />
+              <p className=\"text-olive-muted text-sm\">Înălțime</p>
+              <p className=\"font-heading text-2xl font-bold text-olive\">{progress[0].height_cm} cm</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* History */}
+      <h2 className=\"font-heading font-bold text-olive mb-4\">Istoric</h2>
+      {progress.length === 0 ? (
+        <div className=\"card-elevated text-center py-8\">
+          <Scale className=\"w-12 h-12 text-sage/30 mx-auto mb-3\" />
+          <p className=\"text-olive-muted\">Nu ai înregistrări încă</p>
+          <button onClick={() => setShowForm(true)} className=\"text-sage font-semibold mt-2\">
+            Adaugă prima înregistrare
+          </button>
+        </div>
+      ) : (
+        <div className=\"space-y-3\">
+          {progress.map((entry) => (
+            <div key={entry.id} className=\"card-elevated flex items-center justify-between\">
+              <div>
+                <p className=\"font-bold text-olive\">{entry.weight_kg} kg</p>
+                {entry.notes && <p className=\"text-sm text-olive-muted\">{entry.notes}</p>}
+              </div>
+              <p className=\"text-sm text-olive-muted\">
+                {new Date(entry.date).toLocaleDateString('ro-RO')}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Add Form Modal */}
+      {showForm && (
+        <div className=\"fixed inset-0 bg-black/50 z-50 flex items-end md:items-center justify-center\" onClick={() => setShowForm(false)}>
+          <div className=\"bg-white rounded-t-3xl md:rounded-3xl p-6 w-full md:max-w-md animate-slide-up\" onClick={e => e.stopPropagation()}>
+            <div className=\"flex items-center justify-between mb-6\">
+              <h2 className=\"font-heading text-xl font-bold text-olive\">Adaugă progres</h2>
+              <button onClick={() => setShowForm(false)} className=\"p-2 hover:bg-gray-100 rounded-full\">
+                <X className=\"w-5 h-5\" />
+              </button>
+            </div>
+            
+            <form onSubmit={handleSubmit} className=\"space-y-4\">
+              <div>
+                <label className=\"block text-sm font-medium text-olive-muted mb-2\">Greutate (kg) *</label>
+                <input
+                  type=\"number\"
+                  step=\"0.1\"
+                  value={weight}
+                  onChange={(e) => setWeight(e.target.value)}
+                  className=\"input-styled\"
+                  placeholder=\"70.5\"
+                  required
+                  data-testid=\"weight-input\"
+                />
+              </div>
+              <div>
+                <label className=\"block text-sm font-medium text-olive-muted mb-2\">Înălțime (cm)</label>
+                <input
+                  type=\"number\"
+                  value={height}
+                  onChange={(e) => setHeight(e.target.value)}
+                  className=\"input-styled\"
+                  placeholder=\"175\"
+                  data-testid=\"height-input\"
+                />
+              </div>
+              <div>
+                <label className=\"block text-sm font-medium text-olive-muted mb-2\">Note</label>
+                <input
+                  type=\"text\"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  className=\"input-styled\"
+                  placeholder=\"Ex: După antrenament\"
+                  data-testid=\"notes-input\"
+                />
+              </div>
+              <button type=\"submit\" className=\"btn-primary w-full\" data-testid=\"save-progress-btn\">
+                Salvează
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ==================== PROFILE ====================
+const Profile = ({ user, setUser }) => {
+  const [name, setName] = useState(user?.name || \"\");
+  const [targetWeight, setTargetWeight] = useState(user?.target_weight_kg || \"\");
+  const [heightCm, setHeightCm] = useState(user?.height_cm || \"\");
+  const [saving, setSaving] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const response = await axios.put(`${API}/auth/profile`, {
+        name: name || undefined,
+        target_weight_kg: targetWeight ? parseFloat(targetWeight) : undefined,
+        height_cm: heightCm ? parseFloat(heightCm) : undefined
+      });
+      setUser(prev => ({ ...prev, ...response.data }));
+      toast.success(\"Profil actualizat!\");
+    } catch (error) {
+      toast.error(\"Eroare la salvare\");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${API}/auth/logout`);
+      localStorage.removeItem(\"token\");
+      setUser(null);
+      navigate(\"/login\");
+      toast.success(\"Deconectat cu succes!\");
+    } catch (error) {
+      console.error(\"Logout error:\", error);
+    }
+  };
+
+  return (
+    <div className=\"p-6 pb-32\" data-testid=\"profile-page\">
+      <h1 className=\"font-heading text-3xl font-bold text-olive mb-6\">Profil</h1>
+
+      {/* User Info */}
+      <div className=\"card-elevated mb-6 flex items-center gap-4\">
+        {user?.picture ? (
+          <img src={user.picture} alt={user.name} className=\"w-16 h-16 rounded-full\" />
+        ) : (
+          <div className=\"w-16 h-16 rounded-full bg-sage flex items-center justify-center text-white text-xl font-bold\">
+            {user?.name?.charAt(0) || \"U\"}
+          </div>
+        )}
+        <div>
+          <h2 className=\"font-heading font-bold text-olive\">{user?.name}</h2>
+          <p className=\"text-olive-muted text-sm\">{user?.email}</p>
+        </div>
+      </div>
+
+      {/* Edit Form */}
+      <div className=\"card-elevated mb-6\">
+        <h3 className=\"font-heading font-bold text-olive mb-4\">Editează profilul</h3>
+        <div className=\"space-y-4\">
+          <div>
+            <label className=\"block text-sm font-medium text-olive-muted mb-2\">Nume</label>
+            <input
+              type=\"text\"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className=\"input-styled\"
+              data-testid=\"profile-name-input\"
+            />
+          </div>
+          <div>
+            <label className=\"block text-sm font-medium text-olive-muted mb-2\">Înălțime (cm)</label>
+            <input
+              type=\"number\"
+              value={heightCm}
+              onChange={(e) => setHeightCm(e.target.value)}
+              className=\"input-styled\"
+              placeholder=\"175\"
+              data-testid=\"profile-height-input\"
+            />
+          </div>
+          <div>
+            <label className=\"block text-sm font-medium text-olive-muted mb-2\">Greutate țintă (kg)</label>
+            <input
+              type=\"number\"
+              step=\"0.1\"
+              value={targetWeight}
+              onChange={(e) => setTargetWeight(e.target.value)}
+              className=\"input-styled\"
+              placeholder=\"65\"
+              data-testid=\"profile-target-input\"
+            />
+          </div>
+          <button 
+            onClick={handleSave} 
+            disabled={saving}
+            className=\"btn-primary w-full\"
+            data-testid=\"save-profile-btn\"
+          >
+            {saving ? \"Se salvează...\" : \"Salvează modificările\"}
+          </button>
+        </div>
+      </div>
+
+      {/* Logout */}
+      <button
+        onClick={handleLogout}
+        className=\"w-full flex items-center justify-center gap-2 text-red-500 hover:bg-red-50 py-3 rounded-xl transition-colors\"
+        data-testid=\"logout-btn\"
+      >
+        <LogOut className=\"w-5 h-5\" />
+        Deconectează-te
+      </button>
+    </div>
+  );
+};
+
+// ==================== PROTECTED LAYOUT ====================
+const ProtectedLayout = ({ user, setUser, children }) => {
+  const [activeTab, setActiveTab] = useState(\"dashboard\");
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname.replace(\"/\", \"\") || \"dashboard\";
+    setActiveTab(path);
+  }, [location]);
+
+  return (
+    <div className=\"min-h-screen bg-bone\">
+      {children}
+      <MobileNav activeTab={activeTab} setActiveTab={setActiveTab} />
+    </div>
+  );
+};
+
+// ==================== APP ROUTER ====================
+const AppRouter = ({ user, setUser, loading, checkAuth }) => {
+  const location = useLocation();
+
+  // Check for session_id in URL hash FIRST (before any other logic)
+  if (location.hash?.includes('session_id=')) {
+    return <AuthCallback setUser={setUser} />;
+  }
+
+  if (loading) {
+    return (
+      <div className=\"min-h-screen flex items-center justify-center bg-bone\">
+        <div className=\"text-center\">
+          <div className=\"w-12 h-12 border-4 border-sage border-t-transparent rounded-full animate-spin mx-auto mb-4\" />
+          <p className=\"text-olive-muted\">Se încarcă...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <Routes>
+      <Route 
+        path=\"/login\" 
+        element={user ? <Navigate to=\"/dashboard\" replace /> : <LoginPage setUser={setUser} />} 
+      />
+      <Route
+        path=\"/dashboard\"
+        element={
+          user ? (
+            <ProtectedLayout user={user} setUser={setUser}>
+              <Dashboard user={user} />
+            </ProtectedLayout>
+          ) : (
+            <Navigate to=\"/login\" replace />
+          )
+        }
+      />
+      <Route
+        path=\"/scanner\"
+        element={
+          user ? (
+            <ProtectedLayout user={user} setUser={setUser}>
+              <FoodScanner />
+            </ProtectedLayout>
+          ) : (
+            <Navigate to=\"/login\" replace />
+          )
+        }
+      />
+      <Route
+        path=\"/exercises\"
+        element={
+          user ? (
+            <ProtectedLayout user={user} setUser={setUser}>
+              <Exercises />
+            </ProtectedLayout>
+          ) : (
+            <Navigate to=\"/login\" replace />
+          )
+        }
+      />
+      <Route
+        path=\"/progress\"
+        element={
+          user ? (
+            <ProtectedLayout user={user} setUser={setUser}>
+              <Progress />
+            </ProtectedLayout>
+          ) : (
+            <Navigate to=\"/login\" replace />
+          )
+        }
+      />
+      <Route
+        path=\"/profile\"
+        element={
+          user ? (
+            <ProtectedLayout user={user} setUser={setUser}>
+              <Profile user={user} setUser={setUser} />
+            </ProtectedLayout>
+          ) : (
+            <Navigate to=\"/login\" replace />
+          )
+        }
+      />
+      <Route 
+        path=\"*\" 
+        element={<Navigate to={user ? \"/dashboard\" : \"/login\"} replace />} 
+      />
+    </Routes>
+  );
+};
+
+// ==================== MAIN APP ====================
+function App() {
+  return (
+    <div className=\"App\">
+      <BrowserRouter>
+        <AuthContext>
+          {({ user, setUser, loading, checkAuth }) => (
+            <AppRouter user={user} setUser={setUser} loading={loading} checkAuth={checkAuth} />
+          )}
+        </AuthContext>
+      </BrowserRouter>
+      <Toaster 
+        position=\"top-center\" 
+        toastOptions={{
+          style: {
+            borderRadius: '12px',
+            background: '#1A2E05',
+            color: '#fff',
+          },
+        }}
+      />
+    </div>
+  );
+}
+
+export default App;
+"
+Observation: Overwrite successful: /app/frontend/src/App.js
+
+Action: file_editor create /app/frontend/src/App.css --file-text "/* App.css - SlimFit Additional Styles */
+
+/* Remove default centering */
+.App {
+    min-height: 100vh;
+}
+
+/* Ensure proper overflow on mobile */
+html, body {
+    overflow-x: hidden;
+}
+
+/* Fix for iOS Safari bottom padding */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .mobile-nav {
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    }
+}
+"
+Observation: Overwrite successful: /app/frontend/src/App.css
+Acum să restartez serviciile și să verific dacă totul funcționează:
+Action: $ sudo supervisorctl restart backend && sleep 3 && sudo supervisorctl status
+Observation: backend: stopped
+backend: started
+backend                          RUNNING   pid 1483, uptime 0:00:04
+code-server                      RUNNING   pid 184, uptime 0:17:43
+frontend                         RUNNING   pid 185, uptime 0:17:43
+mongodb                          RUNNING   pid 186, uptime 0:17:43
+nginx-code-proxy                 RUNNING   pid 182, uptime 0:17:43
+Exit code: 0
+
+Action: $ API_URL=$(grep REACT_APP_BACKEND_URL /app/frontend/.env | cut -d '=' -f2) && curl -s "$API_URL/api/" && echo ""
+Observation: {"message":"SlimFit API - Aplicația ta pentru slăbit!"}
+Exit code: 0
+
+Action: $ API_URL=$(grep REACT_APP_BACKEND_URL /app/frontend/.env | cut -d '=' -f2) && curl -s "$API_URL/api/exercises" | head -c 500
+Observation: [{"id":"ex1","name":"Flotări","body_part":"piept","description":"Exercițiu clasic pentru piept și triceps","difficulty":"începător","duration_minutes":10,"calories_burned":80,"image_url":"https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=400"},{"id":"ex2","name":"Împins la piept cu gantere","body_part":"piept","description":"Dezvoltă masa musculară a pieptului","difficulty":"intermediar","duration_minutes":15,"calories_burned":120,"image_url":"https://images.unsplash.com/pho
+Exit code: 0
+Backend-ul funcționează. Să fac un screenshot pentru a verifica frontend-ul:
+Action: Screenshotting http://localhost:3000
+Observation: Frontend URL: http://localhost:3000
+Navigation attempt 1/3
+Screenshot taken: Login page
+Found 1 images
+Analyze the results and take appropriate action.
+Console logs saved: /root/.emergent/automation_output/20260203_164958/console_20260203_164958.log
+Excelent! Pagina de login arată frumos! Acum să testez înregistrarea și apoi dashboard-ul:
+Action: $ API_URL=$(grep REACT_APP_BACKEND_URL /app/frontend/.env | cut -d '=' -f2) && \
+curl -s -X POST "$API_URL/api/auth/register" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@slimfit.ro","password":"test123","name":"Maria Test"}' | python3 -c "import sys,json; d=json.load(sys.stdin); print('User:', d.get('user',{}).get('name'), '| Token:', d.get('token','')[:30]+'...')"
+Observation: User: Maria Test | Token: eyJhbGciOiJIUzI1NiIsInR5cCI6Ik...
+Exit code: 0
+Acum să rulez testarea completă cu agentul de testare:
+Action: {
+  "original_problem_statement_and_user_choices_inputs": "Aplicație pentru slăbit cu: 1) Scanner mâncare AI (GPT-4o) - încarcă poză și primești calorii + alternative sănătoase, 2) Exerciții pentru fiecare parte a corpului, 3) Tracking greutate/înălțime lunar cu grafice, 4) Autentificare email + Google OAuth, 5) Design frumos și ușor de utilizat. Limba română.",
+  
+  "features_or_bugs_to_test": [
+    "Pagina de login funcționează (email + Google button)",
+    "Înregistrare cont nou cu email/parolă",
+    "Login cu email/parolă existent",
+    "/api/auth/me returnează user data după autentificare",
+    "Dashboard afișează stats (calorii, greutate, mese)",
+    "Pagina exerciții încarcă lista de exerciții",
+    "Filtrarea exercițiilor pe grup muscular (piept, spate, picioare)",
+    "Pagina progres - adăugare greutate nouă",
+    "Pagina profil - editare nume și greutate țintă",
+    "Logout funcționează",
+    "Food scanner - încărcare imagine și analiză AI",
+    "Navigația mobilă funcționează între pagini"
+  ],
+  
+  "files_of_reference": [
+    "/app/backend/server.py",
+    "/app/frontend/src/App.js",
+    "/app/auth_testing.md",
+    "/app/image_testing.md"
+  ],
+  
+  "required_credentials": [
+    "Test user: email=test@slimfit.ro, password=test123",
+    "EMERGENT_LLM_KEY is configured in backend .env"
+  ],
+  
+  "testing_type": "both",
+  
+  "agent_to_agent_context_note": {
+    "description": "App is built with React frontend + FastAPI backend + MongoDB. Auth uses JWT tokens stored in cookies. Google OAuth uses Emergent Auth. Food analysis uses GPT-4o vision via emergentintegrations library. All UI is in Romanian language."
+  },
+  
+  "mocked_api": {
+    "has_mocked_apis": false,
+    "mocked_apis_list": []
+  }
+}
+Observation: report_file: /app/test_reports/iteration_1.json
+
+Action: file_editor view /app/test_reports/iteration_1.json
+Observation: /app/test_reports/iteration_1.json:
+1|{
+2|  "summary": "Completed comprehensive testing of SlimFit Romanian weight loss app. Frontend UI flows work perfectly, but critical backend API issues prevent core features from functioning.",
+3|  
+4|  "backend_issues": {
+5|    "critical_bugs": [
+6|      {
+7|        "endpoint": "/api/progress",
+8|        "issue": "MongoDB ObjectId serialization error causing 520 server errors",
+9|        "impact": "Users cannot add new weight/progress entries",
+10|        "fix_priority": "CRITICAL"
+11|      },
+12|      {
+13|        "endpoint": "/api/food/analyze", 
+14|        "issue": "Server returns 520 errors during food analysis",
+15|        "impact": "AI food scanner feature completely broken",
+16|        "fix_priority": "CRITICAL"
+17|      }
+18|    ],
+19|    "working_endpoints": [
+20|      "/api/auth/login",
+21|      "/api/auth/register", 
+22|      "/api/auth/me",
+23|      "/api/dashboard/stats",
+24|      "/api/exercises",
+25|      "/api/exercises/body-parts",
+26|      "/api/auth/profile",
+27|      "/api/auth/logout"
+28|    ]
+29|  },
+30|
+31|  "frontend_issues": {
+32|    "ui_bugs": [],
+33|    "integration_issues": [
+34|      {
+35|        "flow": "Progress entry submission",
+36|        "issue": "Modal remains open after form submission due to backend API failure",
+37|        "affected_selectors": ["[data-testid='save-progress-btn']", "progress form modal"]
+38|      }
+39|    ],
+40|    "design_issues": []
+41|  },
+42|
+43|  "passed_tests": [
+44|    "Login page loads with all form elements",
+45|    "User authentication (email/password login)",
+46|    "Dashboard displays stats and navigation cards", 
+47|    "Mobile navigation between all pages",
+48|    "Exercise page with body part filtering",
+49|    "Food scanner page UI loads correctly",
+50|    "Progress page UI and chart display",
+51|    "Profile page with editable fields",
+52|    "Logout functionality",
+53|    "Romanian language UI throughout app"
+54|  ],
+55|
+56|  "test_report_links": ["/app/backend_test.py", "/app/backend_test_results.json"],
+57|  
+58|  "success_percentage": {
+59|    "backend": "82% (9/11 API endpoints working)",
+60|    "frontend": "95% (all UI flows work, minor integration issues)"
+61|  },
+62|
+63|  "updated_files": [
+64|    "/app/backend/server.py",
+65|    "/app/backend_test.py"
+66|  ],
+67|
+68|  "action_item_for_main_agent": "Fix critical MongoDB ObjectId serialization errors in progress API and investigate food analysis server errors. Both are core features that users expect to work.",
+69|
+70|  "should_call_test_agent_after_fix": "true",
+71|  "should_main_agent_test_itself": "false"
+72|}
+Am 2 bug-uri critice de reparat. Să verific log-urile și să repar:
+Action: $ tail -n 50 /var/log/supervisor/backend.err.log | grep -A5 -i "error\|exception\|traceback"
+Observation: File "/root/.venv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/root/.venv/lib/python3.11/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/middleware/cors.py", line 148, in simple_response
+    await self.app(scope, receive, send)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/root/.venv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+--
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/root/.venv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/fastapi/routing.py", line 296, in app
+--
+    raise ValueError(errors) from e
+ValueError: [TypeError("'ObjectId' object is not iterable"), TypeError('vars() argument must have __dict__ attribute')]
+Exit code: 0
+Problema e cu ObjectId în progress. Trebuie să exclud _id când returnez date. Să verific și food analyze:
+Action: $ tail -n 100 /var/log/supervisor/backend.err.log | grep -B2 -A5 "food\|analyze" | head -40
+Observation: Exit code: 0
+
+Action: file_editor view /app/backend/server.py
+Observation: /app/backend/server.py:
+240|            "name": user["name"],
+241|            "picture": user.get("picture")
+242|        }
+243|    }
+244|
+245|@api_router.post("/auth/session")
+246|async def exchange_session(request: Request, response: Response):
+247|    """Exchange Google OAuth session_id for user data"""
+248|    body = await request.json()
+249|    session_id = body.get("session_id")
+250|    
+251|    if not session_id:
+252|        raise HTTPException(status_code=400, detail="session_id required")
+253|    
+254|    # Call Emergent Auth API
+255|    async with aiohttp.ClientSession() as session:
+256|        async with session.get(
+257|            "https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data",
+258|            headers={"X-Session-ID": session_id}
+259|        ) as resp:
+260|            if resp.status != 200:
+261|                raise HTTPException(status_code=401, detail="Invalid session")
+262|            data = await resp.json()
+263|    
+264|    # Check if user exists
+265|    existing_user = await db.users.find_one({"email": data["email"]}, {"_id": 0})
+266|    
+267|    if existing_user:
+268|        user_id = existing_user["user_id"]
+269|        # Update user data
+270|        await db.users.update_one(
+271|            {"user_id": user_id},
+272|            {"$set": {"name": data["name"], "picture": data.get("picture")}}
+273|        )
+274|    else:
+275|        # Create new user
+276|        user_id = f"user_{uuid.uuid4().hex[:12]}"
+277|        user_doc = {
+278|            "user_id": user_id,
+279|            "email": data["email"],
+280|            "name": data["name"],
+
+
+Action: file_editor view /app/backend/server.py
+Observation: /app/backend/server.py:
+350|    try:
+351|        # Read and encode image
+352|        contents = await file.read()
+353|        base64_image = base64.b64encode(contents).decode('utf-8')
+354|        
+355|        # Initialize chat with GPT-4o
+356|        chat = LlmChat(
+357|            api_key=EMERGENT_LLM_KEY,
+358|            session_id=f"food_analysis_{uuid.uuid4().hex[:8]}",
+359|            system_message="""You are a nutritionist AI assistant. When given a food image, analyze it and provide:
+360|1. The name of the food/dish
+361|2. Estimated calories (be realistic, not inflated)
+362|3. Macronutrients: protein (g), carbs (g), fat (g), fiber (g)
+363|4. 3 healthier alternatives to this food
+364|5. A helpful tip for the user
+365|
+366|Respond ONLY in valid JSON format:
+367|{
+368|    "food_name": "name of food",
+369|    "calories": 500,
+370|    "protein_g": 20.0,
+371|    "carbs_g": 50.0,
+372|    "fat_g": 15.0,
+373|    "fiber_g": 5.0,
+374|    "healthier_alternatives": ["alt1", "alt2", "alt3"],
+375|    "tips": "helpful tip here"
+376|}"""
+377|        ).with_model("openai", "gpt-4o")
+378|        
+379|        # Create message with image
+380|        image_content = ImageContent(image_base64=base64_image)
+381|        user_message = UserMessage(
+382|            text="Analyze this food image and provide nutritional information in JSON format.",
+383|            file_contents=[image_content]
+384|        )
+385|        
+386|        # Get response
+387|        response_text = await chat.send_message(user_message)
+388|        
+389|        # Parse JSON from response
+390|        import json
+391|        logger.info(f"Raw AI response: {response_text[:500]}...")
+392|        
+393|        # Clean response if wrapped in code blocks
+394|        if "```json" in response_text:
+395|            response_text = response_text.split("```json")[1].split("```")[0]
+396|        elif "```" in response_text:
+397|            response_text = response_text.split("```")[1].split("```")[0]
+398|        
+399|        # Try to extract JSON from response
+400|        try:
+Văd problemele. Trebuie să corectez:
+1. În `add_progress` - document-ul inserat nu are _id exclus când îl returnez
+2. Food analysis - `file_contents` trebuie să fie `image_contents`
+
+Să repar:
+Action: file_editor str_replace /app/backend/server.py --old-str "@api_router.post(\"/progress\")
+async def add_progress(entry: ProgressCreate, user: dict = Depends(get_current_user)):
+    \"\"\"Add weight/height progress entry\"\"\"
+    progress_doc = {
+        \"id\": str(uuid.uuid4()),
+        \"user_id\": user[\"user_id\"],
+        \"weight_kg\": entry.weight_kg,
+        \"height_cm\": entry.height_cm,
+        \"notes\": entry.notes,
+        \"date\": datetime.now(timezone.utc).isoformat()
+    }
+    await db.progress.insert_one(progress_doc)
+    return progress_doc" --new-str "@api_router.post(\"/progress\")
+async def add_progress(entry: ProgressCreate, user: dict = Depends(get_current_user)):
+    \"\"\"Add weight/height progress entry\"\"\"
+    progress_doc = {
+        \"id\": str(uuid.uuid4()),
+        \"user_id\": user[\"user_id\"],
+        \"weight_kg\": entry.weight_kg,
+        \"height_cm\": entry.height_cm,
+        \"notes\": entry.notes,
+        \"date\": datetime.now(timezone.utc).isoformat()
+    }
+    await db.progress.insert_one(progress_doc)
+    # Return without MongoDB's _id
+    return {
+        \"id\": progress_doc[\"id\"],
+        \"user_id\": progress_doc[\"user_id\"],
+        \"weight_kg\": progress_doc[\"weight_kg\"],
+        \"height_cm\": progress_doc[\"height_cm\"],
+        \"notes\": progress_doc[\"notes\"],
+        \"date\": progress_doc[\"date\"]
+    }"
+Observation: Summary: ## Bug Fix Complete
+- Fixed progress entry API response in `/app/backend/server.py`
+- Updated `add_progress` endpoint to return explicit field structure instead of dictionary comprehension
+- Ensures consistent API response without MongoDB's `_id` field
+- Progress tracking functionality now returns clean, predictable JSON structure
+- Next Action Items: Test the progress endpoint to verify the fix works correctly
+
+Action: file_editor str_replace /app/backend/server.py --old-str "        # Create message with image
+        image_content = ImageContent(image_base64=base64_image)
+        user_message = UserMessage(
+            text=\"Analyze this food image and provide nutritional information in JSON format.\",
+            file_contents=[image_content]
+        )" --new-str "        # Create message with image
+        image_content = ImageContent(image_base64=base64_image)
+        user_message = UserMessage(
+            text=\"Analyze this food image and provide nutritional information in JSON format.\",
+            image_contents=[image_content]
+        )"
+Observation: Edit was successful.
+
+Action: $ sudo supervisorctl restart backend && sleep 3 && sudo supervisorctl status backend
+Observation: backend: stopped
+backend: started
+backend                          RUNNING   pid 3446, uptime 0:00:04
+Exit code: 0
+Testez fix-urile:
+Action: $ API_URL=$(grep REACT_APP_BACKEND_URL /app/frontend/.env | cut -d '=' -f2) && \
+TOKEN=$(curl -s -X POST "$API_URL/api/auth/login" -H "Content-Type: application/json" -d '{"email":"test@slimfit.ro","password":"test123"}' | python3 -c "import sys,json;print(json.load(sys.stdin)['token'])") && \
+echo "Testing progress endpoint..." && \
+curl -s -X POST "$API_URL/api/progress" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"weight_kg": 75.5, "height_cm": 175, "notes": "Test entry"}'
+Observation: Testing progress endpoint...
+{"id":"d01df43b-1f57-4035-bbe6-205696b355c7","user_id":"user_d52cde6f6dd6","weight_kg":75.5,"height_cm":175.0,"notes":"Test entry","date":"2026-02-03T16:58:24.954653+00:00"}
+Exit code: 0
+Progress funcționează. Acum testez și food analysis:
+Action: $ # Download a test food image
+curl -s "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" -o /tmp/test_food.jpg && \
+echo "Image downloaded, testing food analysis..." && \
+API_URL=$(grep REACT_APP_BACKEND_URL /app/frontend/.env | cut -d '=' -f2) && \
+TOKEN=$(curl -s -X POST "$API_URL/api/auth/login" -H "Content-Type: application/json" -d '{"email":"test@slimfit.ro","password":"test123"}' | python3 -c "import sys,json;print(json.load(sys.stdin)['token'])") && \
+curl -s -X POST "$API_URL/api/food/analyze" \
+  -H "Authorization: Bearer $TOKEN" \
+  -F "file=@/tmp/test_food.jpg" | python3 -c "import sys,json; d=json.load(sys.stdin); print('Food:', d.get('food_name'), '| Calories:', d.get('calories'), '| Tips:', d.get('tips','')[:50]+'...')"
+Observation: Image downloaded, testing food analysis...
+Food: None | Calories: None | Tips: ...
+Exit code: 0
+Să văd ce răspuns a venit exact:
+Action: $ API_URL=$(grep REACT_APP_BACKEND_URL /app/frontend/.env | cut -d '=' -f2) && \
+TOKEN=$(curl -s -X POST "$API_URL/api/auth/login" -H "Content-Type: application/json" -d '{"email":"test@slimfit.ro","password":"test123"}' | python3 -c "import sys,json;print(json.load(sys.stdin)['token'])") && \
+curl -s -X POST "$API_URL/api/food/analyze" \
+  -H "Authorization: Bearer $TOKEN" \
+  -F "file=@/tmp/test_food.jpg"
+Observation: {"detail":"Analysis failed: UserMessage.__init__() got an unexpected keyword argument 'image_contents'"}
+Exit code: 0
+Trebuie să verific documentația pentru emergentintegrations:
+Action: $ python3 -c "from emergentintegrations.llm.chat import UserMessage; import inspect; print(inspect.signature(UserMessage.__init__))"
+Observation: (self, text: str = None, file_contents: list[emergentintegrations.llm.chat.FileContent] = None) -> None
+Exit code: 0
+
+Action: $ python3 -c "from emergentintegrations.llm.chat import ImageContent; import inspect; print(inspect.signature(ImageContent.__init__)); print('Base:', ImageContent.__bases__)"
+Observation: (self, image_base64: str) -> None
+Base: (<class 'emergentintegrations.llm.chat.FileContent'>,)
+Exit code: 0
+Deci `ImageContent` este un `FileContent`. Trebuie să folosesc `file_contents` nu `image_contents`:
+Action: file_editor str_replace /app/backend/server.py --old-str "        # Create message with image
+        image_content = ImageContent(image_base64=base64_image)
+        user_message = UserMessage(
+            text=\"Analyze this food image and provide nutritional information in JSON format.\",
+            image_contents=[image_content]
+        )" --new-str "        # Create message with image
+        image_content = ImageContent(image_base64=base64_image)
+        user_message = UserMessage(
+            text=\"Analyze this food image and provide nutritional information in JSON format.\",
+            file_contents=[image_content]
+        )"
+Observation: Edit was successful.
+
+Action: $ sudo supervisorctl restart backend && sleep 3
+Observation: backend: stopped
+backend: started
+Exit code: 0
+
+Action: $ API_URL=$(grep REACT_APP_BACKEND_URL /app/frontend/.env | cut -d '=' -f2) && \
+TOKEN=$(curl -s -X POST "$API_URL/api/auth/login" -H "Content-Type: application/json" -d '{"email":"test@slimfit.ro","password":"test123"}' | python3 -c "import sys,json;print(json.load(sys.stdin)['token'])") && \
+curl -s -X POST "$API_URL/api/food/analyze" \
+  -H "Authorization: Bearer $TOKEN" \
+  -F "file=@/tmp/test_food.jpg" 2>&1 | head -c 500
+Observation: Internal Server Error
+Exit code: 0
